@@ -8,7 +8,6 @@
 #include <array> 
 
 
-
 class Inventory {
     private:
         int size;

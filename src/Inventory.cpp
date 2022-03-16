@@ -1,13 +1,12 @@
-// #include "header/Inventory.hpp"
-#include "../Header/Inventory.hpp"
-
+#include "../include/Inventory.hpp"
+#define NULL_ITEM "NULLITEM"
 
 Inventory::Inventory(){
     
     this->size = 27;
     for (int i=0; i<this->size; i++){
         
-            Content[i] = new Tool(0, "NULLITEM", 0);
+            Content[i] = new Tool(0, NULL_ITEM, 0);
         
     }
 }
@@ -24,10 +23,9 @@ Item* Inventory::getItem(int index){
     if (Content[index]->getType() == ItemType::Tool)
         return Content[index];
     else
-        return (Content[index]);
-    
-    
+        return (Content[index]);   
 }
+
 void Inventory::insert(int n, Item& itemX){
     bool flagNull = false;
     int FirstNull;
@@ -38,7 +36,7 @@ void Inventory::insert(int n, Item& itemX){
                 // if (temp > 0) insert(temp,itemX);
                 // break
             }
-            if (Content[i]->getName() == "NULLITEM" && !flagNull){
+            if (Content[i]->getName() == NULL_ITEM && !flagNull){
                 FirstNull = i;
                 flagNull = true;
             }
@@ -47,7 +45,7 @@ void Inventory::insert(int n, Item& itemX){
     }
     else{
         for (int i=0; i<27; i++){
-            if (Content[i]->getName() == "NULLITEM"){
+            if (Content[i]->getName() == NULL_ITEM){
                 Content[i] = &itemX;
                 break;
             }
@@ -59,7 +57,7 @@ void Inventory::discard(int index, int n, Item& itemX){
     if (itemX.getType() == ItemType::Tool){
         for (int i=0; i<27; i++){
             if (Content[i]->getName() == itemX.getName()){
-                Content[i] = new Tool(0, "NULLITEM", 0);
+                Content[i] = new Tool(0, NULL_ITEM, 0);
                 break;
             }
         }
@@ -68,7 +66,7 @@ void Inventory::discard(int index, int n, Item& itemX){
         for (int i=0; i<27; i++){
             if (Content[i]->getName() == itemX.getName()){
                 // Content[i].RemoveQuantity(n);
-                // if (Content[i].getQuantity() == 0) Content[i] = new Tool(0, "NULLITEM", 0);
+                // if (Content[i].getQuantity() == 0) Content[i] = new Tool(0, NULL_ITEM, 0);
                 //break;
             }
         }

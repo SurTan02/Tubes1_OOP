@@ -1,11 +1,8 @@
-// TODO:
-// use durabilitynya sesuaikan
-// realisasi output
+#include "../include/Tool.hpp"
 
-#include "../Header/Tool.hpp"
 
 Tool::Tool(int id, std::string name, int durability) :
-    Item(id, name, ItemType::Tool, 1),
+    Item(id, name, ItemType::Tool),
     durability(durability)
 {}
 
@@ -17,6 +14,7 @@ Tool Tool::operator=(const Tool& other) {
 int Tool::getDurability(){
     return durability;
 }
+
 void Tool::repair(int n) {
     durability += n;
 }

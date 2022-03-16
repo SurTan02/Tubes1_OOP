@@ -1,9 +1,5 @@
-// sample main file, replace this with your own code
+#include "Reference.hpp"
 #include <filesystem>
-#include <fstream>
-#include <iostream>
-#include <string>
-#include "Reference.cpp"
 
 using namespace std;
 
@@ -11,22 +7,29 @@ int main() {
 	string configPath = "./config";
 	string itemConfigPath = configPath + "/item.txt";
 
-  	// read item from config file
-  	// ifstream itemConfigFile(itemConfigPath);
-  	// for (string line; getline(itemConfigFile, line);) {
-	// 	cout << line << endl;
-	// 	// do something
-  	// }
+  	// READ ITEM
+	list <Item> listConfigItem;
+	string id , name, type , typeTool;
+  	ifstream itemConfigFile(itemConfigPath);
 
-	// // read recipes
-	// for (const auto &entry :
-	// 	filesystem::directory_iterator(configPath + "/recipe")) {
-	// 	cout << entry.path() << endl;
-	// 	// read from file and do something
-	// }
+  	for (string line; getline(itemConfigFile, line);) {
+		stringstream iss(line);
+		iss >> id >> name >> type >> typeTool;
+		if (typeTool == "Tool"){
+			//craft Tool
+		}else{
+			//craft nontool
+		}
+  	}
+
+	// READ RECIPES
+	for (const auto &entry : filesystem::directory_iterator(configPath + "/recipe")) {
+		cout << entry.path() << endl;
+		// read from file and do something
+	}
 
 	//INISIALISASI VARIABEL GLOBAL
-	Inventory inv;
+	// Inventory inv;
 
 	//COMMAND
 	string command;
@@ -37,23 +40,19 @@ int main() {
 			cin >> outputPath;		//nama file
 			ofstream outputFile(outputPath);
 
-			Item temp;
-			for(int i = 0 ; i < 27 ; i++){
-				temp = inv.getItem(i);
-				if(temp.getType() == "Tool"){		// Tool
-					outputFile << temp.getID() << ":" << temp.getDurability() << endl;
-				}else if(temp.getQuantity() > 0){	// Non Tool
-					outputFile << temp.getID() << ":" << temp.getQuantity() << endl;
-				}else{								// Tidak ada Item
-					outputFile << "0:0" << endl;
-				}
-			}
-			// // hardcode for first test case
-			// outputFile << "21:10" << endl;
-			// outputFile << "6:1" << endl;
-			// for (int i = 2; i < 27; i++) {
-			// 	outputFile << "0:0" << endl;
+			// std::unique_ptr<Item> temp;
+			// for(int i = 0; i < 27; i++) {
+			// 	// temp = inv.getItem();
+			// 	if(inv.getItem().Item::getType() == ItemType::Tool) {
+			// 		outputFile << inv.getItem().getID() << ":" << inv.getItem().getDurability();
+			// 	} else if(inv.getItem().getQuantity() > 0) {
+			// 		outputFile < inv.getItem().getID() << ":" << inv.getItem().getQuantity();
+			// 	} else {
+			// 		outputFile << "0:0";
+			// 	}
+			// 	if(i+1 != 27) {outputFile<<endl;}
 			// }
+
 			cout << "Exported" << endl;
 			
 		} else if (command == "CRAFT") {

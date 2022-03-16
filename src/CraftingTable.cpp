@@ -1,4 +1,4 @@
-#include "../Header/CraftingTable.hpp"
+#include "../include/CraftingTable.hpp"
 
 CraftingTable::CraftingTable() 
 {
