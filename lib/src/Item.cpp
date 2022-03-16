@@ -1,4 +1,4 @@
-#include "Item.hpp"
+#include "../header/Item.hpp"
 
 Item::Item(int id, std::string name, ItemType type, std::uint64_t quantity) :
     id(id),

@@ -8,7 +8,7 @@ class NonTool : public Item
 public:
     NonTool(int id, std::string name, ItemType type);
     NonTool operator=(const NonTool& other);
-    void addQuantity(int n);
+    int addQuantity(int n);
     void removeQuantity(int n);
     void output() override;
 };
