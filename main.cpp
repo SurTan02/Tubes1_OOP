@@ -1,32 +1,15 @@
 #include "Reference.hpp"
-#include <filesystem>
 
 using namespace std;
 
 int main() {
-	string configPath = "./config";
-	string itemConfigPath = configPath + "/item.txt";
 
   	// READ ITEM
-	list <Item> listConfigItem;
-	string id , name, type , typeTool;
-  	ifstream itemConfigFile(itemConfigPath);
-
-  	for (string line; getline(itemConfigFile, line);) {
-		stringstream iss(line);
-		iss >> id >> name >> type >> typeTool;
-		if (typeTool == "Tool"){
-			//craft Tool
-		}else{
-			//craft nontool
-		}
-  	}
+	listItem = readConfigItem();
 
 	// READ RECIPES
-	for (const auto &entry : filesystem::directory_iterator(configPath + "/recipe")) {
-		cout << entry.path() << endl;
-		// read from file and do something
-	}
+	recipes = readConfigRecipes();
+
 
 	//INISIALISASI VARIABEL GLOBAL
 	// Inventory inv;

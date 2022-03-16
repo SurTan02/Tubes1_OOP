@@ -1,5 +1,4 @@
 #include "../include/Inventory.hpp"
-#define NULL_ITEM "NULLITEM"
 
 Inventory::Inventory(){
     
@@ -23,7 +22,7 @@ Item* Inventory::getItem(int index){
     if (Content[index]->getType() == ItemType::Tool)
         return Content[index];
     else
-        return (Content[index]);   
+        return Content[index];   
 }
 
 void Inventory::insert(int n, Item& itemX){

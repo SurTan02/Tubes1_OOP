@@ -4,11 +4,13 @@
 #include "include/Inventory.hpp"
 // #include "include/CraftingTable.hpp"
 #include "include/Item.hpp"
+#include "src/readFile.cpp"
 
 //Library
+#include <filesystem>
 #include <fstream>
 #include <sstream>
 #include <iostream>
 #include <string>
-
-#include <list>
+#include <dirent.h>
+#include <vector>
