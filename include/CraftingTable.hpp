@@ -1,5 +1,5 @@
-#ifndef CRAFTING_TABLE_HPP_INCLUDED
-#define CRAFTING_TABLE_HPP_INCLUDED
+#ifndef CRAFTING_TABLE_HPP
+#define CRAFTING_TABLE_HPP
 
 #include <array>
 #include <vector>

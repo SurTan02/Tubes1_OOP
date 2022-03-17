@@ -8,7 +8,7 @@ int main() {
 
 
   	// READ ITEM
-	listItem = readConfigItem();
+	vector <Item*> listItem = readConfigItem();
 
 	// READ RECIPES
 	recipes = readConfigRecipes();

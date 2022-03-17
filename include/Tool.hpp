@@ -1,5 +1,5 @@
-#ifndef TOOL_HPP_INCLUDED
-#define TOOL_HPP_INCLUDED
+#ifndef TOOL_HPP
+#define TOOL_HPP
 
 #include "Item.hpp"
 
@@ -16,4 +16,4 @@ public:
     void output() override;
 };
 
-#endif // TOOL_HPP_INCLUDED
+#endif // TOOL_HPP

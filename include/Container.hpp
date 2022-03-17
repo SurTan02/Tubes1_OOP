@@ -8,13 +8,12 @@
 #include <array>
 using namespace std;
 
-typedef struct slot {
-    Item* item;
-    int qty;
-} Slot;
-
-
 class Container {
+    typedef struct slot {
+        Item* item;
+        int qty;
+    } Slot;
+
     private:
         int size;
         Slot* Content;
@@ -27,6 +26,8 @@ class Container {
         void insert(int n, Item& itemX);
         void discard(int index, int n);
         void display();
+        void move(Container& src, int srcIdx, Container& dst, int dstIdx);
+        void move(Container& src, int srcIdx, Container& dst, int dstIdx, int n);
 };
 
 #endif

@@ -1,7 +1,11 @@
 #include "../include/Container.hpp"
 
+vector<Item*> listItem;
 
 int main(){
+    listItem.push_back(new Tool(0,NULL_ITEM,0));
+    listItem.push_back(new Tool(1,"aaa",0));
+
     Container x(27);
     Tool t(15, "TES", 10);
     // Tool q(1, "N", 5);
@@ -10,7 +14,7 @@ int main(){
     // std::unique_ptr<Item> t = std::make_unique<Tool>(1, "axe", 1000);
     // std::unique_ptr<Item> q = std::make_unique<NonTool>(1, "log", ItemType::Plank);
     
-    x.insert(1,t);
+    x.insert(1, *listItem[1]);
     x.insert(1,t);
     x.insert(5,q);
     x.insert(5,q);
