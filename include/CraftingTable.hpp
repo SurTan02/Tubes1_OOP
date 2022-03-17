@@ -6,20 +6,17 @@
 #include <iterator>
 
 #include "Container.hpp"
-
-typedef struct Recipe 
-{
-    std::array<Item, 9> recipe;
-    std::unique_ptr<Item> output;
-};
+#include "Recipe.hpp"
 
 class CraftingTable : Container 
 {
-    private:
-        
     public:
         CraftingTable(); 
-        friend std::unique_ptr<Item> craft(CraftingTable, std::vector<Recipe>);
+        string getName(int n);
+        bool isEmpty();
+        bool isTool();
+        bool isNonTool();
+        Item* craft(std::vector<Recipe>);
 };
 
 #endif
