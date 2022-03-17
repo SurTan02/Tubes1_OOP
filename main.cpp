@@ -3,6 +3,9 @@
 using namespace std;
 
 int main() {
+	//INISIALISASI VARIABEL GLOBAL
+	Container inv(27);
+
 
   	// READ ITEM
 	listItem = readConfigItem();
@@ -11,30 +14,13 @@ int main() {
 	recipes = readConfigRecipes();
 
 
-	//INISIALISASI VARIABEL GLOBAL
-	// Inventory inv;
 
 	//COMMAND
 	string command;
 	cout << "Command : ";
 	while (cin >> command) {
 		if (command == "EXPORT") {
-			string outputPath;
-			cin >> outputPath;		//nama file
-			ofstream outputFile(outputPath);
-
-			// std::unique_ptr<Item> temp;
-			// for(int i = 0; i < 27; i++) {
-			// 	// temp = inv.getItem();
-			// 	if(inv.getItem().Item::getType() == ItemType::Tool) {
-			// 		outputFile << inv.getItem().getID() << ":" << inv.getItem().getDurability();
-			// 	} else if(inv.getItem().getQuantity() > 0) {
-			// 		outputFile < inv.getItem().getID() << ":" << inv.getItem().getQuantity();
-			// 	} else {
-			// 		outputFile << "0:0";
-			// 	}
-			// 	if(i+1 != 27) {outputFile<<endl;}
-			// }
+			exportFile(inv);
 
 			cout << "Exported" << endl;
 			
