@@ -34,7 +34,7 @@ vector <Item> readConfigItem(){
 		if (typeTool == "Tool"){	//craft Tool
 			Tool temp(stoi(id) , name , 10);
 			listItem.push_back(temp);
-		}else{						//craft nontool
+		}else{		https://www.youtube.com/watch?v=KTUrc26d5D8				//craft nontool
 			NonTool temp(stoi(id) , name , getItemType(type));
 			listItem.push_back(temp);
 		}

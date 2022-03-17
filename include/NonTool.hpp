@@ -1,5 +1,5 @@
-#ifndef NONTOOL_HPP_INCLUDED
-#define NONTOOL_HPP_INCLUDED
+#ifndef NONTOOL_HPP
+#define NONTOOL_HPP
 
 #include "Item.hpp"
 

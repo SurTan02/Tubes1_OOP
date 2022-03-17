@@ -1,5 +1,5 @@
-#ifndef ITEM_HPP_INCLUDED
-#define ITEM_HPP_INCLUDED
+#ifndef ITEM_HPP
+#define ITEM_HPP
 
 #define NULL_ITEM "NULLITEM"
 
@@ -27,6 +27,6 @@ class Item
         virtual void output() = 0;
 };
 
-vector<Item> listItem;
+extern vector<Item*> listItem;
 
-#endif // ITEM_HPP_INCLUDED
+#endif // ITEM_HPP

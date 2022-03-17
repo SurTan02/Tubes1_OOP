@@ -8,7 +8,7 @@ int main() {
 
 
   	// READ ITEM
-	listItem = readConfigItem();
+	readConfigItem();
 
 	// READ RECIPES
 	recipes = readConfigRecipes();

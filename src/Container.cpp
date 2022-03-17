@@ -5,8 +5,8 @@ Container::Container(int size) {
     this->size = size;
     this->Content = new Slot[size];
     for (int i = 0; i < this->size; i++) {
-        // Content[i].item = &listItem[0];
-        Content[i].item = new Tool(0, NULL_ITEM, 0);
+        Content[i].item = listItem[0];
+        //Content[i].item = new Tool(0, NULL_ITEM, 0);
         
         Content[i].qty = 0;
     }
@@ -16,7 +16,7 @@ Container::~Container() {
     delete[] Content;
 }
 
-Slot Container::getItem(int index) {
+Container::Slot Container::getItem(int index) {
     return Content[index];
 }
 
@@ -67,8 +67,8 @@ void Container::insert(int n, Item& itemX) {
 
 void Container::discard(int index, int n) {
     if (Content[index].item->getType() == ItemType::Tool) {
-        // Content[index].item = &listItem[0];
-        Content[index].item = new Tool(0, NULL_ITEM, 0);
+        Content[index].item = listItem[0];
+        //Content[index].item = new Tool(0, NULL_ITEM, 0);
         Content[index].qty = 0;
         // for (int i=0; i<27; i++) {
         //     if (Content[i].item->getName() == itemX.getName()){
@@ -79,12 +79,24 @@ void Container::discard(int index, int n) {
     }
     else {
         if (Content[index].qty <= n) {
-            // Content[index].item = &listItem[0];
-            Content[index].item = new Tool(0, NULL_ITEM, 0);
+            Content[index].item = listItem[0];
+            //Content[index].item = new Tool(0, NULL_ITEM, 0);
             Content[index].qty = 0;
         } else {
             Content[index].qty -= n;
         }
         
     }
+}
+
+void Container::display() {
+
+}
+
+void Container::move(Container& src, int srcIdx, Container& dst, int dstIdx) {
+
+}
+
+void Container::move(Container& src, int srcIdx, Container& dst, int dstIdx, int n) {
+
 }
