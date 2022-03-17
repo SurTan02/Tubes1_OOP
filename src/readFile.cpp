@@ -19,10 +19,10 @@ ItemType getItemType(string type){
 	else if(type == "TOOL")		{return ItemType::Tool;}
 }
 
-vector <Item> readConfigItem(){
+vector <Item*> readConfigItem(){
     string configPath = "./config/item.txt";
 
-    vector <Item> listItem;
+    vector <Item*> listItem;
 	string id , name, type , typeTool;
   	ifstream itemConfigFile(configPath);
     
@@ -32,11 +32,9 @@ vector <Item> readConfigItem(){
 		words >> id >> name >> type >> typeTool;
 
 		if (typeTool == "Tool"){	//craft Tool
-			Tool temp(stoi(id) , name , 10);
-			listItem.push_back(temp);
-		}else{		https://www.youtube.com/watch?v=KTUrc26d5D8				//craft nontool
-			NonTool temp(stoi(id) , name , getItemType(type));
-			listItem.push_back(temp);
+			listItem.push_back(new Tool(stoi(id) , name , 10));
+		}else{		                //craft nontool
+			listItem.push_back(new NonTool(stoi(id) , name , getItemType(type)));
 		}
   	}
     return listItem;
@@ -62,9 +60,11 @@ vector <Recipe> readConfigRecipes(){
                 idx++;
                 ifstream itemConfigFile(configPath + ent->d_name);
                 for (string line; getline(itemConfigFile, line);) {
-                    material1 = "-";
-                    material2 = "-";
-                    material3 = "-";
+                    // initialize blueprint's materials
+                    material1 = NULL_ITEM;
+                    material2 = NULL_ITEM;
+                    material3 = NULL_ITEM;
+
                     stringstream words(line);
                     lineRead++;
                     if(lineRead == 1){
