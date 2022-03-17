@@ -5,7 +5,9 @@ Container::Container(int size) {
     this->size = size;
     this->Content = new Slot[size];
     for (int i = 0; i < this->size; i++) {
-        Content[i].item = &listItem[0];
+        // Content[i].item = &listItem[0];
+        Content[i].item = new Tool(0, NULL_ITEM, 0);
+        
         Content[i].qty = 0;
     }
 }
@@ -24,26 +26,39 @@ int Container::getSize() {
 
 void Container::insert(int n, Item& itemX) {
     bool flagNull = false;
+    bool found = false;
     int FirstNull;
+    int i = 0;
     if (itemX.getType() != ItemType::Tool) {
-        for (int i = 0; i < 27; i++) {
-            if (Content[i].item->getName() == itemX.getName()) {
+        
+        while (i < 27 && !found) {
+            if (Content[i].item->getName() == itemX.getName() && Content[i].qty < 64) {
                 int temp = Content[i].qty + n;
-                if (temp > 0) insert(temp,itemX);
-                break;
+                if (temp > 64){
+                    Content[i].qty = 64;
+                    insert(temp-64,itemX);
+                }
+                else Content[i].qty = temp;
+                
+                found = true;
             }
-            if (Content[i].item->getName() == NULL_ITEM && !flagNull) {
+            else if (Content[i].item->getName() == NULL_ITEM && !flagNull) {
                 FirstNull = i;
                 flagNull = true;
             }
+            i++;
         }
-        Content[FirstNull].item = &itemX;
-        Content[FirstNull].qty = 1;
+        if (flagNull && !found){
+            Content[FirstNull].item = &itemX;
+            Content[FirstNull].qty = n;
+        }
+        
     }
     else {
         for (int i = 0; i < 27; i++) {
             if (Content[i].item->getName() == NULL_ITEM) {
                 Content[i].item = &itemX;
+                Content[i].qty = 1;
                 break;
             }
         }
@@ -52,7 +67,8 @@ void Container::insert(int n, Item& itemX) {
 
 void Container::discard(int index, int n) {
     if (Content[index].item->getType() == ItemType::Tool) {
-        Content[index].item = &listItem[0];
+        // Content[index].item = &listItem[0];
+        Content[index].item = new Tool(0, NULL_ITEM, 0);
         Content[index].qty = 0;
         // for (int i=0; i<27; i++) {
         //     if (Content[i].item->getName() == itemX.getName()){
@@ -62,8 +78,9 @@ void Container::discard(int index, int n) {
         // }
     }
     else {
-        if (Content[index].qty < n) {
-            Content[index].item = &listItem[0];
+        if (Content[index].qty <= n) {
+            // Content[index].item = &listItem[0];
+            Content[index].item = new Tool(0, NULL_ITEM, 0);
             Content[index].qty = 0;
         } else {
             Content[index].qty -= n;
