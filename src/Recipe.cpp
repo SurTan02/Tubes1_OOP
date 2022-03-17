@@ -36,6 +36,10 @@ void Recipe::setBlueprint(int idx , string item) {
     blueprint[idx] = item;
 }
 
+vector<string> Recipe::getBlueprint() {
+    return this->blueprint;
+}
+
 string Recipe::operator[](int idx){
     return this->blueprint[idx];
 }

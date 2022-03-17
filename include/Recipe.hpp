@@ -24,6 +24,7 @@ class Recipe{
         int getColumn() const;
         
         void setBlueprint(int , string);
+        vector<string> getBlueprint();
         string operator[](int);
 
         void setItemName(string);
