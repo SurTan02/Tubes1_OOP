@@ -5,9 +5,7 @@
 #include <vector>
 #include <iterator>
 
-#include "Item.hpp"
-#include "Tool.hpp"
-#include "NonTool.hpp"
+#include "Container.hpp"
 
 typedef struct Recipe 
 {
@@ -15,17 +13,13 @@ typedef struct Recipe
     std::unique_ptr<Item> output;
 };
 
-class CraftingTable
+class CraftingTable : Container 
 {
-private:
-    std::array<Item, 9> input;
-public:
-    CraftingTable();
-    ~CraftingTable();
-    std::array<Item, 9> getInput();
-    void insert(std::unique_ptr<Item>, int);
-    std::unique_ptr<Item> discard(int);
-    friend std::unique_ptr<Item> craft(CraftingTable, std::vector<Recipe>);
+    private:
+        
+    public:
+        CraftingTable(); 
+        friend std::unique_ptr<Item> craft(CraftingTable, std::vector<Recipe>);
 };
 
 #endif

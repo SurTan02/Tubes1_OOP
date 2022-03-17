@@ -26,6 +26,7 @@ class Container {
         int getSize();
         void insert(int n, Item& itemX);
         void discard(int index, int n);
+        void display();
 };
 
 #endif
