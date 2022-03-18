@@ -1,8 +1,5 @@
 #include "Tool.hpp"
-#include "Tool.cpp"
 #include "NonTool.hpp"
-#include "NonTool.cpp"
-#include "Item.cpp"
 #include <memory>
 
 int main() {
