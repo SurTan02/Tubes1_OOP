@@ -19,6 +19,7 @@ ItemType getItemType(string type){
 	else if(type == "TOOL")		{return ItemType::Tool;}
 }
 
+// Read All Config
 vector <Item*> readConfigItem(){
     string configPath = "./config/item.txt";
 
@@ -40,6 +41,7 @@ vector <Item*> readConfigItem(){
     return listItem;
 }
 
+// Read All Recipee
 vector <Recipe> readConfigRecipes(){
     string configPath = "./config/recipe/";
     DIR *dir;
@@ -93,4 +95,22 @@ vector <Recipe> readConfigRecipes(){
     } else {perror ("");}									/* could not open directory */
 
     return recipes;
+}
+
+// Tool or Non-Tool ItemType
+string getItemTypeToolFromName(string nama){
+    string configPath = "./config/item.txt";
+
+	string id , name, type , typeTool;
+  	ifstream itemConfigFile(configPath);
+
+    for (string line; getline(itemConfigFile, line);) {
+		//get data
+		stringstream words(line);
+		words >> id >> name >> type >> typeTool;
+
+        if(name == nama){
+            return typeTool; 
+        }
+  	}
 }

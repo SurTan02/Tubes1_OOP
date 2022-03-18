@@ -14,22 +14,30 @@ class Recipe{
         string itemName;
         int createdProduct;
     public :
+        // Constructor
         Recipe(int , int);
         ~Recipe();
 
+        // Row Properties
         void setRow(int);
         int getRow() const;
 
+        // Column Properties
         void setColumn(int);
         int getColumn() const;
         
+        // Blueprint Properties
         void setBlueprint(int , string);
         vector<string> getBlueprint();
+        
+        // Operator
         string operator[](int);
 
+        // ItemName Properties
         void setItemName(string);
         string getItemName() const;
 
+        // CreatedProduct Properties
         void setCreatedProduct(int);
         int getCreatedProduct() const;
 
