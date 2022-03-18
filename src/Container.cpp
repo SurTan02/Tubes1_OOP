@@ -31,7 +31,7 @@ void Container::insert(int n, Item& itemX) {
     bool found = false;
     int FirstNull;
     int i = 0;
-
+    
     
 
     if (itemX.getType() != ItemType::Tool) {
@@ -79,52 +79,29 @@ void Container::insert(int n, Item& itemX) {
     }
 }    
 
-
-
-
-void Container::insert(int n, Item& itemX, int index){
-
-    if (itemX.getType() != ItemType::Tool) {
-        
-            if (Content[index].item->getName() == itemX.getName() && Content[index].qty < 64) {
-                int temp = Content[index].qty + n;
-                if (temp > 64){
-                    Content[index].qty = 64;
-                    insert(temp-64,itemX);
-                }
-                else Content[index].qty = temp;
-            }
-            else if (Content[index].item->getName() == NULL_ITEM){
-                Content[index].item = &itemX;
-                if (n > 64){
-                    Content[index].qty = 64;
-                    insert(n-64,itemX);
-                }
-                else Content[index].qty = n;
-            }
-            else{
-                throw ("Ada Item lain disini");                 //Perlu handle kalau dia udah ada item di Content[index] ?
-                // throw (new Xerror); 
-            }
+void Container::insert(int n, Item& itemX,int index){
+    if (itemX.getType() != ItemType::Tool) {                            //CEK ITEM NONTOOL
+        if (Content[index].item== nullptr){                             //CEK SLOT KOSONG/GA
+            Content[index].item = &itemX;
+            Content[index].qty = n;
         }
-        
-    else {
-        // if (Content[index].item->getName() == NULL_ITEM){ 
-        if (Content[index].item == nullptr){ 
-                Content[index].item = &itemX;
-                Content[index].qty = 1;
-                
+        else if (Content[index].item->getName() == itemX.getName()) {   //CEK ITEM PADA SLOT SAMA ATAU GA
+            Content[index].qty += n;
         }
-        else{
-            throw ("Ada Item Lain disini");                                 //Perlu handle kalau dia udah ada item di Content[index] ?
-            // throw (new Xerror);
+
+    } else {                                                            //ITEM NONTOOL
+            if (Content[index].item == nullptr){ 
+            Content[index].item = &itemX;
+            Content[index].qty = 1;       
         }
-        
     }
 }
 
+
 void Container::discard(int index, int n) {
     if (Content[index].item->getType() == ItemType::Tool) {
+
+        delete Content[index].item;
         Content[index].item = nullptr;
         Content[index].qty = 0;
     }
@@ -142,7 +119,6 @@ void Container::discard(int index, int n) {
 
 void Container::display() {
     int i;
-
     for (i= 0 ; i < size ; i++){
         std::cout << std::setw(23);
         if (Content[i].item != nullptr)
@@ -170,31 +146,34 @@ void Container::move(Container& src, int srcIdx, Container& dst, int dstIdx) {
 void Container::move(Container& src, int srcIdx, Container& dst, int dstIdx, int n) {
     Slot srcSlot = src.Content[srcIdx];
     Slot dstSlot = dst.Content[dstIdx];
-
+    Slot temp;
+    
     if (srcSlot.item == nullptr) {
+        
         throw EmptySourceException();
     }
-
+    
     // Throw exception or swap?? Specification unclear
-    if (srcSlot.item != dstSlot.item) {
+    if (srcSlot.item != dstSlot.item && dstSlot.item != nullptr) {
+       
         throw DifferentItemTargetException();
     }
-
     if (n > srcSlot.qty) {
+    
         throw NotEnoughItemException();
     }
-
-    try {
+    
+    try { 
         if (n + dstSlot.qty <= 64) {
-            dst.insert(n, *srcSlot.item, dstIdx);
-            src.discard(srcIdx, n);
+            dst.insert(n,*srcSlot.item,dstIdx);
+            src.discard(srcIdx, n);            
         }
         else {
+            std::cout<<"TES7\n";
             dst.insert(64 - dstSlot.qty, *srcSlot.item, dstIdx);
             src.discard(srcIdx, 64 - dstSlot.qty);
         }
     } catch (Exception& e) {
         cout << e.what() << endl;
     }
-
 }

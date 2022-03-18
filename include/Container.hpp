@@ -30,8 +30,8 @@ class Container {
         void insert(int n, Item& itemX, int index);
         void discard(int index, int n);
         void display();
-        void move(Container& src, int srcIdx, Container& dst, int dstIdx);
-        void move(Container& src, int srcIdx, Container& dst, int dstIdx, int n);
+        static void move(Container& src, int srcIdx, Container& dst, int dstIdx);
+        static void move(Container& src, int srcIdx, Container& dst, int dstIdx, int n);
 };
 
 #endif

@@ -11,7 +11,7 @@ int main(){
     Container x(27);
     Tool t(15, "TOol", 10);
     // Tool q(1, "N", 5);
-    NonTool q(5, "2", ItemType::Plank);
+    NonTool q(5, "SESUATU", ItemType::Plank);
     // NonTool q(1, "log", ItemType::Plank);
 
     
@@ -33,33 +33,27 @@ int main(){
     x.insert(1, t1);
     x.insert(1, *listItem[1]);
     for (int i = 0 ; i< 27 ; i ++ ){
-        try{
-            x.insert(1, t1);
-        }
-        catch (Exception &e){
-            std::cout<<e.what();
-        }
+        // try{
+        //     x.insert(1, t1);
+        // }
+        // catch (Exception &e){
+        //     std::cout<<e.what();
+        // }
     }
-    // x.insert(1, *listItem[1]);
-    // std::cout<<"ID: "<<x.getItem(29).item->getID()<<" ";
-    // x.insert(1, *listItem[1]);
-    // x.insert(1, *listItem[1]);
-    // x.insert(1, *listItem[1]);
-    // x.insert(1, *listItem[1]);
-    // x.insert(1,t);
-    // x.insert(5,q);
-    // x.insert(5,q);
-    // x.insert(63,q);
-    // x.discard(2,20);
-    // x.discard(1,1);
-    // std::cout<<x.getItem(0)->getID()<<"\n";
-    // std::cout<<x.getItem(0)->getName()<<"\n";
-    ((Tool*) x.getItem(0).item)->use();
-    ((Tool*) x.getItem(1).item)->use();
-    ((Tool*) x.getItem(1).item)->use();
-    ((Tool*) x.getItem(2).item)->use();
-    ((Tool*) x.getItem(2).item)->use();
-    ((Tool*) x.getItem(2).item)->use();
+    x.display();
+    // (Container& src, int srcIdx, Container& dst, int dstIdx, int n)
+    Container::move(x, 1, x, 26,10);
+    std::cout<<"----------------------------------\n";
+    x.display();
+    std::cout<<"----------------------------------\n";
+    Container::move(x, 1, x, 26,10);
+    x.display();
+    // ((Tool*) x.getItem(0).item)->use();
+    // ((Tool*) x.getItem(1).item)->use();
+    // ((Tool*) x.getItem(1).item)->use();
+    // ((Tool*) x.getItem(2).item)->use();
+    // ((Tool*) x.getItem(2).item)->use();
+    // ((Tool*) x.getItem(2).item)->use();
     std::cout<< ((Tool*) x.getItem(0).item)->getDurability()<<"\n";
     // std::cout<< ((Tool*) x.getItem(1).item)->getDurability()<<"\n";
     std::cout<< ((Tool*) x.getItem(2).item)->getDurability()<<"\n";
@@ -76,17 +70,9 @@ int main(){
     //     std::cout<<"Type: "<<x.getItem(i).item->getTypeToString();
     //     std::cout<<"QTY: "<<x.getItem(i).qty<<std::endl;
     // }
-    x.display();
-    // q.addQuantity(10);
-    // std::cout<<x.getItem(1)->getID()<<"\n";
-    // std::cout<<x.getItem(1)->getName()<<"\n";
-    // std::cout<<x.getItem(1)->getQuantity()<<"\n";
 
     delete listItem[0];
     delete listItem[1];
-    // delete listItem[0];
-    
-    // std::cout<<x.getItem(1)->getType()<<"\n";
-    // std::cout<<x.getItem(1)->getType();
+
 
 }
