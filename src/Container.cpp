@@ -7,7 +7,7 @@ Container::Container(int size) {
     for (int i = 0; i < this->size; i++) {
         Content[i].item = listItem[0];
         //Content[i].item = new Tool(0, NULL_ITEM, 0);
-        
+
         Content[i].qty = 0;
     }
 }
@@ -94,9 +94,37 @@ void Container::display() {
 }
 
 void Container::move(Container& src, int srcIdx, Container& dst, int dstIdx) {
-
+    move(src, srcIdx, dst, dstIdx, src.Content[srcIdx].qty);
 }
 
 void Container::move(Container& src, int srcIdx, Container& dst, int dstIdx, int n) {
+    Slot srcSlot = src.Content[srcIdx];
+    Slot dstSlot = dst.Content[dstIdx];
+
+    if (srcSlot.item == nullptr) {
+        throw EmptySourceException();
+    }
+
+    // Throw exception or swap?? Specification unclear
+    if (srcSlot.item != dstSlot.item) {
+        throw DifferentItemTargetException();
+    }
+
+    if (n > srcSlot.qty) {
+        throw NotEnoughItemException();
+    }
+
+    try {
+        if (n + dstSlot.qty <= 64) {
+            dst.insert(n, *srcSlot.item, dstIdx);
+            src.discard(srcIdx, n);
+        }
+        else {
+            dst.insert(64 - dstSlot.qty, *srcSlot.item, dstIdx);
+            src.discard(srcIdx, 64 - dstSlot.qty);
+        }
+    } catch (Exception& e) {
+        cout << e.what() << endl;
+    }
 
 }

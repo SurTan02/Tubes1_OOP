@@ -31,4 +31,12 @@ class DifferentItemTargetException : public Exception {
         }
 };
 
+class NotEnoughItemException : public Exception {
+    public:
+        NotEnoughItemException() : Exception() {}
+        string what() {
+            return "Source slot does not have enough item quantity. Fails to perform operation.\n";
+        }
+};
+
 #endif
