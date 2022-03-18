@@ -121,7 +121,7 @@ Item* CraftingTable::craft(std::vector<Recipe> recipes) {
             /* TO DO: destruct semua item - DONE */
             for (int i = 0; i < this->getSize(); i++) {
                 if (this->getName(i) != NULL_ITEM) {
-                    delete this->Content->item; /* gini kah (?) ga yakin */
+                    this->discard(i, 1);
                 }
             }
             /* TO DO: ID */
@@ -133,7 +133,7 @@ Item* CraftingTable::craft(std::vector<Recipe> recipes) {
                 if (flag) {
                     for (int i = 0; i < this->getSize(); i++) {
                         if (this->getName(i) != NULL_ITEM) {
-                            delete this->Content->item; /* gini kah (?) ga yakin */
+                            this->discard(i, 1);
                         }
                     }
                     /* TO DO: Check Tool atau NonTool */
