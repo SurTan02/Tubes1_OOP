@@ -27,7 +27,7 @@ class FullInventoryException : public Exception {
     public:
         FullInventoryException() : Exception() {}
         string what() {
-            return "Inventory is Full. Fails to insert item.\n";
+            return "Destination is Full. Fails to insert item.\n";
         }
         ~FullInventoryException(){}
 };

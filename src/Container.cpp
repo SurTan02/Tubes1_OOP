@@ -1,6 +1,6 @@
 #include "../include/Container.hpp"
-#define NULL_ITEM "NULLITEM"
 #include <iomanip>
+//Constructor
 Container::Container(int size) {
     this->size = size;
     this->Content = new Slot[size];
@@ -17,6 +17,7 @@ Container::~Container() {
     delete[] Content;
 }
 
+//Mengembalikan Slot pada Content[index]
 Container::Slot Container::getItem(int index) {
     return Content[index];
 }
@@ -25,27 +26,30 @@ int Container::getSize() {
     return this->size;
 }
 
+
+
+//Insert Item, Digunakan pada command give / craft
 void Container::insert(int n, Item& itemX) {
-    // Item* tempItem; 
+
     bool flagNull = false;
     bool found = false;
-    int FirstNull;
-    int i = 0;
-    
-    
+    int FirstNull,temp,i;
+    i = 0;
 
+    //Jika Item yang ditambahkan adalah nontool
     if (itemX.getType() != ItemType::Tool) {
-        
-        while (i < 27 && !found) {
+        while (i < size && !found) {
             if (Content[i].item == nullptr) {
-                
+
+                //Penanda Slot yang kosong
                 if (!flagNull){
                     flagNull = true;
                     FirstNull = i;
                 }
             }
+            //Kasus apabila ada item sama tetapi belum penuh
             else if (Content[i].item->getName() == itemX.getName() && Content[i].qty < 64) {
-                int temp = Content[i].qty + n;
+                temp = Content[i].qty + n;
                 if (temp > 64){
                     Content[i].qty = 64;
                     insert(temp-64,itemX);
@@ -56,32 +60,34 @@ void Container::insert(int n, Item& itemX) {
             }
             i++;
         }
+        //Jika tidak ada item serupa, tambahkan pada slot kosong
         if (flagNull && !found){
             Content[FirstNull].item = &itemX;
             Content[FirstNull].qty = n;
+            found = true;
         }
         
     }
     else {
-        bool found = false;
-        int i = 0;
-        while (i < 27 && !found) {
+        i = 0;
+        while (i < size && !found) {
             if (Content[i].item == nullptr) {
                 Content[i].item = new Tool(itemX.getID(), itemX.getName(), 10);
                 Content[i].qty = 1;
                 found = true;
             }
             i++;
-        }
-        if (!found){
-            throw FullInventoryException(); 
-        }
+        }   
+    }
+    //Kalau Tidak ditemukan slot yang bisa diinsert menandakan container penuh
+    if (!found){
+        throw FullInventoryException(); 
     }
 }    
 
 void Container::insert(int n, Item& itemX,int index){
     if (itemX.getType() != ItemType::Tool) {                            //CEK ITEM NONTOOL
-        if (Content[index].item== nullptr){                             //CEK SLOT KOSONG/GA
+        if (Content[index].item== nullptr){                             //cek apakah slot kosong
             Content[index].item = &itemX;
             Content[index].qty = n;
         }
@@ -99,19 +105,31 @@ void Container::insert(int n, Item& itemX,int index){
 
 
 void Container::discard(int index, int n) {
-    if (Content[index].item->getType() == ItemType::Tool) {
 
+    if (Content[index].qty < n){
+        throw NotEnoughItemException();
+    }
+    else if (Content[index].item == nullptr){
+        throw EmptySourceException();
+    }
+    //Cek apakah Item pada index merupakan tool, jika iya kosongkan slot
+    
+    else if (Content[index].item->getType() == ItemType::Tool) {
         delete Content[index].item;
         Content[index].item = nullptr;
         Content[index].qty = 0;
     }
+    //Kasus Apabila item Yang ingin dihapus adalah NonTool;
     else {
-        if (Content[index].qty <= n) {
+        //Kasus sama apabila jumlah n > qty item
+        if (Content[index].qty == n){
             Content[index].item = nullptr;
-            Content[index].qty = 0;
-        } else {
+        Content[index].qty = 0;
+
+        } else{
             Content[index].qty -= n;
         }
+        
         
     }
 }
@@ -120,16 +138,16 @@ void Container::discard(int index, int n) {
 void Container::display() {
     int i;
     for (i= 0 ; i < size ; i++){
-        std::cout << std::setw(23);
+        std::cout << std::setw(15);
         if (Content[i].item != nullptr)
         {
             string out;
             string quant;
             quant = to_string(Content[i].qty);
             out = Content[i].item->getName() + "[" + quant + "]";
-            std::cout << out << std::setw(23);
+            std::cout << out << std::setw(15);
         }
-        else std::cout << "NULL[0]"  << std::setw(23);
+        else std::cout << "NULL[0]"  << std::setw(15);
         
 
         if ((i+1)%(size/3)==0) {
@@ -169,7 +187,6 @@ void Container::move(Container& src, int srcIdx, Container& dst, int dstIdx, int
             src.discard(srcIdx, n);            
         }
         else {
-            std::cout<<"TES7\n";
             dst.insert(64 - dstSlot.qty, *srcSlot.item, dstIdx);
             src.discard(srcIdx, 64 - dstSlot.qty);
         }

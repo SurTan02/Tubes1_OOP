@@ -5,74 +5,90 @@
 vector<Item*> listItem;
 
 int main(){
-    listItem.push_back(new Tool(0,NULL_ITEM,0));
-    listItem.push_back(new Tool(1,"list1",10));
-
-    Container x(27);
-    Tool t(15, "TOol", 10);
-    // Tool q(1, "N", 5);
-    NonTool q(5, "SESUATU", ItemType::Plank);
-    // NonTool q(1, "log", ItemType::Plank);
-
+    //Inisiasi Inventory
+    Container inventory(27);
     
+    //Tes ListItem
+    listItem.push_back(new Tool(0,"Tool1",10));
+    listItem.push_back(new Tool(1,"Tool2",10));
+    listItem.push_back(new Tool(2,"Tool3",10));
+    listItem.push_back(new NonTool(3,"NonTool1",ItemType::Log));
+    listItem.push_back(new NonTool(4,"NonTool2",ItemType::Stone));
+    listItem.push_back(new NonTool(5,"NonTool3",ItemType::Plank));
     
+    //insert 3 Nontool ke inventory
+    inventory.insert(32,*listItem[3]);
+    inventory.insert(32,*listItem[4]);
+    inventory.insert(32,*listItem[5]);
     
-    Tool t1 = Tool(listItem[1]->getID(), "t1", 10);
-    // t1 = Tool(listItem[1]->getID(), "t1", 10);
+    //insert 3 Tool1 ke inventory
+    inventory.insert(1,*listItem[0]);
+    inventory.insert(1,*listItem[0]);
+    inventory.insert(1,*listItem[0]);
     
-    //Inventory[0] = "t1" == 9
-    x.insert(1,  t1);
+    //display
+    inventory.display();
+    std::cout<<"----------------------------------------------------------------------------------------------------------------------------------------\n";
+   
+    //Tes Use Tool1 pada index 3 sebanyak 1x;
+    ((Tool*) inventory.getItem(3).item)->use();
+    
+    //Tes Use Tool1 pada index 4 sebanyak 2x;
+    ((Tool*) inventory.getItem(4).item)->use();
+    ((Tool*) inventory.getItem(4).item)->use();
 
-    //inventory[1] = "Tool" ==8
-    x.insert(64,q);
+    //Tes Use Tool1 pada index 5 sebanyak 3x;
+    ((Tool*) inventory.getItem(5).item)->use();
+    ((Tool*) inventory.getItem(5).item)->use();
+    ((Tool*) inventory.getItem(5).item)->use();
+    
 
+    //Tampilkan Durability Tool1 
+    std::cout<<"Durability pada indeks 3 : "<<((Tool*) inventory.getItem(3).item)->getDurability()<<"\n";
+    std::cout<<"Durability pada indeks 4 : "<<((Tool*) inventory.getItem(4).item)->getDurability()<<"\n";
+    std::cout<<"Durability pada indeks 5 : "<<((Tool*) inventory.getItem(5).item)->getDurability()<<"\n";
 
-    //Inventory[2] = "The new t1" == 7
-    t1 = Tool(listItem[1]->getID(), "the new t1", 10);
-    // x.insert(1, Tool(listItem[1]->getID(), "the new t1", 10));
-    x.insert(1, t1);
-    x.insert(1, *listItem[1]);
-    for (int i = 0 ; i< 27 ; i ++ ){
-        // try{
-        //     x.insert(1, t1);
-        // }
-        // catch (Exception &e){
-        //     std::cout<<e.what();
-        // }
+    //UjiCoba Discard Item Indeks 0 Sebanyak 20;
+    //UjiCoba Discard Item Indeks 1 Sebanyak 32;
+    inventory.discard(0,20);
+    inventory.discard(1,32);
+    inventory.display();
+    std::cout<<"----------------------------------------------------------------------------------------------------------------------------------------\n";
+    
+    //Ujicoba Insert sampai penuh
+    for (int i = 0 ; i< 27 ; i++ ){
+        try{
+            inventory.insert(64, *listItem[3]);
+        }
+        catch (Exception &e){
+            std::cout<<e.what();
+            break;
+        }
     }
-    x.display();
-    // (Container& src, int srcIdx, Container& dst, int dstIdx, int n)
-    Container::move(x, 1, x, 26,10);
-    std::cout<<"----------------------------------\n";
-    x.display();
-    std::cout<<"----------------------------------\n";
-    Container::move(x, 1, x, 26,10);
-    x.display();
-    // ((Tool*) x.getItem(0).item)->use();
-    // ((Tool*) x.getItem(1).item)->use();
-    // ((Tool*) x.getItem(1).item)->use();
-    // ((Tool*) x.getItem(2).item)->use();
-    // ((Tool*) x.getItem(2).item)->use();
-    // ((Tool*) x.getItem(2).item)->use();
-    std::cout<< ((Tool*) x.getItem(0).item)->getDurability()<<"\n";
-    // std::cout<< ((Tool*) x.getItem(1).item)->getDurability()<<"\n";
-    std::cout<< ((Tool*) x.getItem(2).item)->getDurability()<<"\n";
-    // std::cout<< <<"\n";
+    inventory.display();
+    std::cout<<"----------------------------------------------------------------------------------------------------------------------------------------\n";
+
+    //Discard dari indeks 0-26
+    for (int i = 0 ; i< 27 ; i++ ){
+        try{
+            inventory.discard(i, 64);
+        }
+        catch (Exception &e){
+            std::cout<<e.what();
+            break;
+        }
+    }
+    inventory.display();
+    std::cout<<"----------------------------------------------------------------------------------------------------------------------------------------\n";
+
+    // Container::move(x, 1, x, 26,10);
+    
+  
 
 
-    // Tool* peek = std::dynamic_cast<Tool*>(temp.get());
-    // peek->getDurability()
-
-    // for (int i=0; i < x.getSize(); i++){
-    //     std::cout<<i+1<<". ";
-    //     std::cout<<"ID: "<<x.getItem(i).item->getID()<<" ";
-    //     std::cout<<"Name: "<<x.getItem(i).item->getName()<<" ";
-    //     std::cout<<"Type: "<<x.getItem(i).item->getTypeToString();
-    //     std::cout<<"QTY: "<<x.getItem(i).qty<<std::endl;
-    // }
-
-    delete listItem[0];
-    delete listItem[1];
 
 
+    for (int i=0 ; i < listItem.size(); i++){
+        delete listItem[i];
+    }
 }
