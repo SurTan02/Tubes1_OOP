@@ -1,15 +1,4 @@
-#include "../include/Item.hpp"
-#include "../include/Tool.hpp"
-#include "../include/NonTool.hpp"
-#include "../include/Recipe.hpp"
-
-#include <filesystem>
-#include <fstream>
-#include <sstream>
-#include <iostream>
-#include <string>
-#include <dirent.h>
-#include <vector>
+#include "../include/readFile.hpp"
 
 ItemType getItemType(string type){
 	if(type == "-")				{return ItemType::None;}
@@ -97,8 +86,8 @@ vector <Recipe> readConfigRecipes(){
     return recipes;
 }
 
-// Tool or Non-Tool ItemType
-string getItemTypeToolFromName(string nama){
+// get ID and ItemType of an item
+string getIDandTypefromName(string nama){
     string configPath = "./config/item.txt";
 
 	string id , name, type , typeTool;
@@ -110,7 +99,7 @@ string getItemTypeToolFromName(string nama){
 		words >> id >> name >> type >> typeTool;
 
         if(name == nama){
-            return typeTool; 
+            return id + " " + typeTool; 
         }
   	}
 }
