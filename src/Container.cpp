@@ -26,10 +26,13 @@ int Container::getSize() {
 }
 
 void Container::insert(int n, Item& itemX) {
+    // Item* tempItem; 
     bool flagNull = false;
     bool found = false;
     int FirstNull;
     int i = 0;
+
+    
 
     if (itemX.getType() != ItemType::Tool) {
         
@@ -51,10 +54,6 @@ void Container::insert(int n, Item& itemX) {
                 
                 found = true;
             }
-            // else if (Content[i].item->getName() == NULL_ITEM && !flagNull) {
-            //     FirstNull = i;
-            //     flagNull = true;
-            // }
             i++;
         }
         if (flagNull && !found){
@@ -64,15 +63,24 @@ void Container::insert(int n, Item& itemX) {
         
     }
     else {
-        for (int i = 0; i < 27; i++) {
+        bool found = false;
+        int i = 0;
+        while (i < 27 && !found) {
             if (Content[i].item == nullptr) {
-                Content[i].item = &itemX;
+                Content[i].item = new Tool(itemX.getID(), itemX.getName(), 10);
                 Content[i].qty = 1;
-                break;
+                found = true;
             }
+            i++;
+        }
+        if (!found){
+            throw FullInventoryException(); 
         }
     }
 }    
+
+
+
 
 void Container::insert(int n, Item& itemX, int index){
 
@@ -131,24 +139,29 @@ void Container::discard(int index, int n) {
     }
 }
 
+
 void Container::display() {
     int i;
 
     for (i= 0 ; i < size ; i++){
-        if (Content[i].item != nullptr) std::cout<< Content[i].item->getName() <<"["<<Content[i].qty<<"]"<< std::setw(15-Content[i].item->getName().length());
-        else std::cout << "NULL[0]"<< std::setw(10);
+        std::cout << std::setw(23);
+        if (Content[i].item != nullptr)
+        {
+            string out;
+            string quant;
+            quant = to_string(Content[i].qty);
+            out = Content[i].item->getName() + "[" + quant + "]";
+            std::cout << out << std::setw(23);
+        }
+        else std::cout << "NULL[0]"  << std::setw(23);
         
 
         if ((i+1)%(size/3)==0) {
-            std::cout<<std::endl;
-        }
-        else{
-            // std::cout << std::setw(10-Content[i].item->getName().length());
-            // cout.width();;
-        }
-        
+            std::cout<<std::endl;// << std::setw(-25);
+        }        
     }
 }
+
 
 void Container::move(Container& src, int srcIdx, Container& dst, int dstIdx) {
     move(src, srcIdx, dst, dstIdx, src.Content[srcIdx].qty);

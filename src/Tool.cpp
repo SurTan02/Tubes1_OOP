@@ -6,9 +6,12 @@ Tool::Tool(int id, std::string name, int durability) :
     durability(durability)
 {}
 
-Tool Tool::operator=(const Tool& other) {
-    Tool t(other.id, other.name, other.durability);
-    return t;
+Tool& Tool::operator=(const Tool& other) {
+    this->id = other.id;  
+    this->name = other.name;  
+    this->durability = other.durability;  
+    // Tool t(other.id, other.name, other.durability);
+    return *this;
 }
 
 int Tool::getDurability(){
