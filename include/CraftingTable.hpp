@@ -4,9 +4,11 @@
 #include <array>
 #include <vector>
 #include <iterator>
+#include <sstream>
 
 #include "Container.hpp"
 #include "Recipe.hpp"
+#include "readFile.hpp"
 
 class CraftingTable : Container 
 {
