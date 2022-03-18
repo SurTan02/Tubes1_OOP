@@ -43,6 +43,55 @@ bool CraftingTable::isNonTool() {
     return flag;
 }
 
+bool CraftingTable::check(vector<string> recipe) {
+    std::vector<string>::iterator ptr;
+    bool flag = true;
+    int i = 0;
+    for (ptr = recipe.begin(); ptr < recipe.end(); ptr++) {
+        if (this->getName(i) != *ptr) {
+            flag = false;
+        }
+
+        i++;
+    }
+    return flag;
+}
+
+bool CraftingTable::checkMirror(std::vector<string> recipe) {
+    std::vector<string>::iterator ptr;
+    bool flag = true;
+    int i = 2;
+    for (ptr = recipe.begin(); ptr < recipe.end(); ptr++) {
+        if (this->getName(i) != *ptr) {
+            flag = false;
+        }
+
+        if (i % 3 == 0) {
+            i += 5;
+        } else {
+            i--;
+        }
+    }
+    return flag;
+}
+
+bool CraftingTable::checkSub(std::vector<string> recipe, int row, int column) {
+    if (row != 3 && column != 3) {
+        std::vector<string> temp = recipe;
+        int n = 9 - ((row - 1) * 3 + (column - 1)) - 1;
+        for (int i = 0; i < n; i++) {
+            if (this->check(temp) || this->checkMirror(temp)) {
+                return true;
+            }
+            temp.pop_back();
+            temp.insert(temp.begin(), NULL_ITEM);
+        }
+        return false;
+    } else {
+        return false;
+    }
+}
+
 Item* CraftingTable::craft(std::vector<Recipe> recipes) {
     if (this->isEmpty()) {
         throw "nda bisa di craft gan";
@@ -80,18 +129,7 @@ Item* CraftingTable::craft(std::vector<Recipe> recipes) {
         } else {
             std::vector<Recipe>::iterator ptr;
             for (ptr = recipes.begin(); ptr < recipes.end(); ptr++) {
-                std::vector<string>::iterator pt;
-                bool flag = true;
-                int i = 0;
-                for (pt = ptr->getBlueprint().begin(); pt < ptr->getBlueprint().end(); pt++) {
-                    /* To Do: MIRROR */
-
-                    /* To Do: Sub Array */
-                    if (this->getName(i) != *pt) {
-                        flag = false;
-                    }
-                    i++;
-                }
+                bool flag = this->check(ptr->getBlueprint()) || this->checkMirror(ptr->getBlueprint()) || (this->checkSub(ptr->getBlueprint(), ptr->getRow(), ptr->getColumn()));
                 if (flag) {
                     for (int i = 0; i < this->getSize(); i++) {
                         if (this->getName(i) != NULL_ITEM) {
@@ -99,9 +137,12 @@ Item* CraftingTable::craft(std::vector<Recipe> recipes) {
                         }
                     }
                     /* TO DO: Check Tool atau NonTool */
-                    return new Tool(1, item_name, durability);
+                    return new Tool(1, item_name, 10);
+                } else {
+                    throw "nda bisa di craft gan";
                 }
             }
         }
     }
 }
+
