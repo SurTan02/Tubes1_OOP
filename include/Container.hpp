@@ -14,7 +14,7 @@ class Container {
         int qty;
     } Slot;
 
-    private:
+    protected:
         int size;
         Slot* Content;
 
