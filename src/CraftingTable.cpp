@@ -137,7 +137,17 @@ Item* CraftingTable::craft(std::vector<Recipe> recipes) {
                         }
                     }
                     /* TO DO: Check Tool atau NonTool */
-                    return new Tool(1, item_name, 10);
+                    string ids, type, typeTool;
+                    int id = 0;
+                    stringstream words(getIDandTypefromName(ptr->getItemName()));
+		            words >> id >> type >> typeTool;
+                    stringstream ss(ids);
+                    ss >> id;
+                    if (typeTool == "NONTOOL") {
+                        return new NonTool(id, ptr->getItemName(), getItemType(type));
+                    } else {
+                        return new Tool(id, ptr->getItemName(), 10);
+                    }
                 } else {
                     throw "nda bisa di craft gan";
                 }

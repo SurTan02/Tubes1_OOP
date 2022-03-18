@@ -99,7 +99,7 @@ string getIDandTypefromName(string nama){
 		words >> id >> name >> type >> typeTool;
 
         if(name == nama){
-            return id + " " + typeTool; 
+            return id + " " + type + " " + typeTool; 
         }
   	}
 }
