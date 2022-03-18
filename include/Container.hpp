@@ -4,11 +4,14 @@
 #include "Item.hpp"
 #include "Tool.hpp"
 #include "NonTool.hpp"
+#include "Exception.hpp"
 #include <iostream>
 #include <array>
 using namespace std;
 
 class Container {
+    const int MAX_SLOT_QTY = 64;
+
     typedef struct slot {
         Item* item;
         int qty;
