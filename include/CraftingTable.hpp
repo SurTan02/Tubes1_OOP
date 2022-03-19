@@ -9,6 +9,7 @@
 #include "Container.hpp"
 #include "Recipe.hpp"
 #include "readFile.hpp"
+#include "Exception.hpp"
 
 class CraftingTable : Container 
 {

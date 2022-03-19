@@ -97,7 +97,7 @@ bool CraftingTable::checkSub(std::vector<string> recipe, int row, int column) {
 //Jadi void
 void CraftingTable::craft(std::vector<Recipe> recipes, Container Inventory) {
     if (this->isEmpty()) {
-        throw "nda bisa di craft gan";
+        throw FailedCraftException();
         return;
     } else {
         if (this->isTool()) {
@@ -115,11 +115,11 @@ void CraftingTable::craft(std::vector<Recipe> recipes, Container Inventory) {
                             durability += ((Tool*) this->getItem(i).item)->getDurability();
                             count++;
                         } else {
-                            throw "nda bisa di craft gan";
+                            throw FailedCraftException();
                             return;
                         }
                     } else {
-                        throw "nda bisa di craft gan";
+                        throw FailedCraftException();
                         return;
                     }
                 }
@@ -194,7 +194,7 @@ void CraftingTable::craft(std::vector<Recipe> recipes, Container Inventory) {
                         return;
                     }
                 } else {
-                    throw "nda bisa di craft gan";
+                    throw FailedCraftException();
                     return;
                 }
             }

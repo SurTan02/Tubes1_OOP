@@ -50,4 +50,12 @@ class NotEnoughItemException : public Exception {
         ~NotEnoughItemException() {}
 };
 
+class FailedCraftException : public Exception {
+    public:
+        FailedCraftException() : Exception() {}
+        string what() {
+            return "Crafting table does not match any recipe. Fails to perform operation.\n"
+        }
+}
+
 #endif
