@@ -95,14 +95,15 @@ bool CraftingTable::checkSub(std::vector<string> recipe, int row, int column) {
 
 //Tambah parameter inventory
 //Jadi void
-Item* CraftingTable::craft(std::vector<Recipe> recipes, Container Inventory) {
+void CraftingTable::craft(std::vector<Recipe> recipes, Container Inventory) {
     if (this->isEmpty()) {
         throw "nda bisa di craft gan";
+        return;
     } else {
         if (this->isTool()) {
             int count = 0;
             string item_name;
-            int durability;                                                                 //TODO BATAS ATAS DURABILITY = 10
+            int durability;
             for (int i = 0; i < this->getSize(); i++) {
                 if (this->getName(i) != NULL_ITEM) {
                     if (count == 0) {
@@ -115,17 +116,26 @@ Item* CraftingTable::craft(std::vector<Recipe> recipes, Container Inventory) {
                             count++;
                         } else {
                             throw "nda bisa di craft gan";
+                            return;
                         }
                     } else {
                         throw "nda bisa di craft gan";
+                        return;
                     }
                 }
             }
+
+            string ids, type, typeTool;
+
+            stringstream words(getIDandTypefromName(item_name));
+            words >> ids >> type >> typeTool;
+
+            int id;
+            stringstream ss(ids);
+            ss >> id;
             
             try{
-                // Nama Item Dihasilkan
-                // listItem[i]->getname == NamaItemDIhasilkan
-                // Inventory.insert(*listItem[idx], durability)
+                Inventory.insert(*listItem[id], std::max(durability, 10));
 
                 for (int i = 0; i < this->getSize(); i++) {
                     if (this->getName(i) != NULL_ITEM) {
@@ -133,13 +143,9 @@ Item* CraftingTable::craft(std::vector<Recipe> recipes, Container Inventory) {
                     }
                 }
             } catch (Exception &e){
-                throw(e);
+                throw &e;
             }
-
-            /* TO DO: ID */
-            //Gaperlu
-            return new Tool(1, item_name, durability);
-
+            return;
         } else {
             std::vector<Recipe>::iterator ptr;
             for (ptr = recipes.begin(); ptr < recipes.end(); ptr++) {
@@ -153,26 +159,43 @@ Item* CraftingTable::craft(std::vector<Recipe> recipes, Container Inventory) {
                     }
                     /* TO DO: Check Tool atau NonTool */
                     string ids, type, typeTool;
-                    int id = 0;
                     stringstream words(getIDandTypefromName(ptr->getItemName()));
-		            words >> id >> type >> typeTool;
+		            words >> ids >> type >> typeTool;
+
+                    int id;
                     stringstream ss(ids);
                     ss >> id;
+
                     if (typeTool == "NONTOOL") {
-                        //Sama dengan atas
-                        //Inventory.insert(quantity,*listItem[idx])
-                        //Try Catch
-                        //Gaperlu return
-                        return new NonTool(id, ptr->getItemName(), getItemType(type));
+                        try{
+                            Inventory.insert(*listItem[id], 10);
+
+                            for (int i = 0; i < this->getSize(); i++) {
+                                if (this->getName(i) != NULL_ITEM) {
+                                    this->discard(i, 1);
+                                }
+                            }
+                        } catch (Exception &e){
+                            throw &e;
+                        }
+                        return;
                     } else {
-                        //Sama dengan atas
-                        // Inventory.insert(*listItem[idx], 10)
-                        //Try Catch
-                        //Gaperlu return
-                        return new Tool(id, ptr->getItemName(), 10);
+                        try{
+                            Inventory.insert(*listItem[id], ptr->getCreatedProduct());
+
+                            for (int i = 0; i < this->getSize(); i++) {
+                                if (this->getName(i) != NULL_ITEM) {
+                                    this->discard(i, 1);
+                                }
+                            }
+                        } catch (Exception &e){
+                            throw &e;
+                        }
+                        return;
                     }
                 } else {
                     throw "nda bisa di craft gan";
+                    return;
                 }
             }
         }

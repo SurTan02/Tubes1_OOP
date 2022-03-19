@@ -23,7 +23,7 @@ class CraftingTable : Container
         bool check(vector<string>);
         bool checkMirror(vector<string>);
         bool checkSub(vector<string>, int, int);
-        Item* craft(std::vector<Recipe>);
+        void craft(std::vector<Recipe>, Container);
 };
 
 #endif
