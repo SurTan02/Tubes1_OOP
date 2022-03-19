@@ -3,10 +3,14 @@
 CraftingTable::CraftingTable() : Container(9) {}
 
 string CraftingTable::getName(int n) {
-    if (this->getItem(n).item->getTypeToString() == "Plank") {
-        return this->getItem(n).item->getTypeToString();
+    if (this->Content[n].item != nullptr) {
+        if (this->getItem(n).item->getTypeToString() == "Plank") {
+            return this->getItem(n).item->getTypeToString();
+        } else {
+            return this->getItem(n).item->getName();
+        }
     } else {
-        return this->getItem(n).item->getName();
+        throw EmptySourceException();
     }
 }
 
@@ -14,7 +18,7 @@ bool CraftingTable::isEmpty() {
     bool flag = true;
 
     for (int i = 0; i < this->getSize(); i++) {
-        if (this->getName(i) != NULL_ITEM) {
+        if (this->Content[i].item != nullptr) {
             flag = false;
         }
     }
@@ -25,7 +29,7 @@ bool CraftingTable::isTool() {
     bool flag = true;
 
     for (int i = 0; i < this->getSize(); i++) {
-        if (this->getItem(i).item->getTypeToString() != "Tool" || this->getName(i) != NULL_ITEM) {
+        if (this->getItem(i).item->getTypeToString() != "Tool" || this->Content[i].item != nullptr) {
             flag = false;
         }
     }
@@ -105,7 +109,7 @@ void CraftingTable::craft(std::vector<Recipe> recipes, Container Inventory) {
             string item_name;
             int durability;
             for (int i = 0; i < this->getSize(); i++) {
-                if (this->getName(i) != NULL_ITEM) {
+                if (this->Content[i].item != nullptr) {
                     if (count == 0) {
                         item_name = this->getName(i);
                         durability = ((Tool*) this->getItem(i).item)->getDurability();
@@ -135,10 +139,10 @@ void CraftingTable::craft(std::vector<Recipe> recipes, Container Inventory) {
             ss >> id;
             
             try{
-                Inventory.insert(*listItem[id], std::max(durability, 10));
+                Inventory.insert(std::max(durability, 10), *listItem[id]);
 
                 for (int i = 0; i < this->getSize(); i++) {
-                    if (this->getName(i) != NULL_ITEM) {
+                    if (this->Content[i].item != nullptr) {
                         this->discard(i, 1);
                     }
                 }
@@ -152,7 +156,7 @@ void CraftingTable::craft(std::vector<Recipe> recipes, Container Inventory) {
                 bool flag = this->check(ptr->getBlueprint()) || this->checkMirror(ptr->getBlueprint()) || (this->checkSub(ptr->getBlueprint(), ptr->getRow(), ptr->getColumn()));
                 if (flag) {
                     for (int i = 0; i < this->getSize(); i++) {
-                        if (this->getName(i) != NULL_ITEM) {
+                        if (this->Content[i].item != nullptr) {
                             this->discard(i, 1);
                             
                         }
@@ -168,10 +172,10 @@ void CraftingTable::craft(std::vector<Recipe> recipes, Container Inventory) {
 
                     if (typeTool == "NONTOOL") {
                         try{
-                            Inventory.insert(*listItem[id], 10);
+                            Inventory.insert(10, *listItem[id]);
 
                             for (int i = 0; i < this->getSize(); i++) {
-                                if (this->getName(i) != NULL_ITEM) {
+                                if (this->Content[i].item != nullptr) {
                                     this->discard(i, 1);
                                 }
                             }
@@ -181,10 +185,10 @@ void CraftingTable::craft(std::vector<Recipe> recipes, Container Inventory) {
                         return;
                     } else {
                         try{
-                            Inventory.insert(*listItem[id], ptr->getCreatedProduct());
+                            Inventory.insert(ptr->getCreatedProduct(), *listItem[id]);
 
                             for (int i = 0; i < this->getSize(); i++) {
-                                if (this->getName(i) != NULL_ITEM) {
+                                if (this->Content[i].item != nullptr) {
                                     this->discard(i, 1);
                                 }
                             }

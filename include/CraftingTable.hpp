@@ -11,7 +11,7 @@
 #include "readFile.hpp"
 #include "Exception.hpp"
 
-class CraftingTable : Container 
+class CraftingTable : public Container 
 {
     private:
 
