@@ -27,6 +27,7 @@ class Container {
         Slot getItem(int index);
         int getSize();
         void insert(int n, Item& itemX);
+        void insert(Item& itemX, int durability);
         void insert(int n, Item& itemX, int index);
         void discard(int index, int n);
         void display();

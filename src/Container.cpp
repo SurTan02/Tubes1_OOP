@@ -26,7 +26,8 @@ int Container::getSize() {
     return this->size;
 }
 
-
+//BIKIN INSERT KHUSUS ITEM
+// void insert(Item& itemX, int durability);
 
 //Insert Item, Digunakan pada command give / craft
 void Container::insert(int n, Item& itemX) {
@@ -175,6 +176,16 @@ void Container::move(Container& src, int srcIdx, Container& dst, int dstIdx, int
     if (srcSlot.item != dstSlot.item && dstSlot.item != nullptr) {
        
         throw DifferentItemTargetException();
+        // temp = dstSlot; 
+        // dstSlot = srcSlot; 
+        // srcSlot = temp; 
+
+        //Craft
+        // try
+        //Insert(Inventory,Hasil)           //Penuh
+        //Discard(CraftTable,Hasil)         //Item tab
+        // catch
+        // 
     }
     if (n > srcSlot.qty) {
     
