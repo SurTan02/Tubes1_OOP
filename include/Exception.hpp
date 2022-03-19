@@ -54,8 +54,8 @@ class FailedCraftException : public Exception {
     public:
         FailedCraftException() : Exception() {}
         string what() {
-            return "Crafting table does not match any recipe. Fails to perform operation.\n"
+            return "Crafting table does not match any recipe. Fails to perform operation.\n";
         }
-}
+};
 
 #endif
