@@ -24,7 +24,7 @@ class CraftingTable : public Container
         bool check(string*);
         bool checkMirror(string*);
         bool checkSub(string*, int, int);
-        void craft(Container);
+        void craft(Container&);
 };
 
 #endif

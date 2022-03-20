@@ -19,12 +19,15 @@ using namespace std;
 ItemType getItemType(string);
 
 // Membaca item.txt
-vector <Item*> readConfigItem();
+void readConfigItem();
 
 // Membaca recipes yang tersedia
 void readConfigRecipes();
 
+// Menentukan ID berdasarkan nama Item
+int getIDfromName(string);
+
 // Menentukan ItemType berdasarkan nama Item
-string getIDandTypefromName(string);
+string getTypefromName(string);
 
 #endif

@@ -105,7 +105,7 @@ void Container::insert(int n, Item& itemX,int index){
             Content[index].qty += n;
         }
 
-    } else {                                                            //ITEM NONTOOL
+    } else {                                                            //ITEM TOOL
             if (Content[index].item == nullptr){ 
             Content[index].item = &itemX;
             Content[index].qty = 1;       

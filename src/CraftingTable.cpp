@@ -10,9 +10,10 @@ string CraftingTable::getName(int n) {
             return this->getItem(n).item->getName();
         }
     } else {
-        throw EmptySourceException();
+        return NULL_ITEM;
     }
 }
+
 
 bool CraftingTable::isEmpty() {
     bool flag = true;
@@ -27,9 +28,9 @@ bool CraftingTable::isEmpty() {
 
 bool CraftingTable::isTool() {
     bool flag = true;
-
+    
     for (int i = 0; i < this->getSize(); i++) {
-        if (this->getItem(i).item->getTypeToString() != "Tool" || this->Content[i].item != nullptr) {
+        if (this->Content[i].item != nullptr && this->getItem(i).item->getTypeToString() != "Tool") {
             flag = false;
         }
     }
@@ -51,6 +52,7 @@ bool CraftingTable::check(string* recipe) {
     bool flag = true;
     
     for (int i = 0; i < 9; i++) {
+        // cout<< this->getName(i) <<" + "<< recipe[i]<<endl;
         if (this->getName(i) != recipe[i]) {
             flag = false;
         }
@@ -79,6 +81,7 @@ bool CraftingTable::checkMirror(string* recipe) {
 }
 
 bool CraftingTable::checkSub(string* recipe, int row, int column) {
+    cout << "MASUK CHECK SUB" << endl;
     if (row != 3 && column != 3) {
         string* temp = new string[9];
 
@@ -86,8 +89,21 @@ bool CraftingTable::checkSub(string* recipe, int row, int column) {
             temp[i] = recipe[i];
         }
 
+        cout << "Recipe" << endl;
+        for (int i = 0; i < 9; i++) {
+            cout << recipe[i] << " ";
+        }
+        cout << endl;
+
         int n = 9 - ((row - 1) * 3 + (column - 1)) - 1;
         for (int i = 0; i < n; i++) {
+            
+            cout << "SUB" << endl;
+            for (int i = 0; i < 9; i++) {
+                cout << temp[i] << " ";
+            }
+            cout << endl;
+
             if (this->check(temp) || this->checkMirror(temp)) {
                 return true;
             }
@@ -108,15 +124,19 @@ bool CraftingTable::checkSub(string* recipe, int row, int column) {
 //Tambah parameter inventory
 //Jadi void
 // void CraftingTable::craft(std::vector<Recipe> recipes, Container Inventory) {
-void CraftingTable::craft(Container Inventory) {
+void CraftingTable::craft(Container& Inventory) {
+    cout<<"TES Craft 1\n";
     if (this->isEmpty()) {
+        cout<<"TES CRAFT EMpty\n";
         throw FailedCraftException();
-        
+    
     } else {
+        cout<<"TES CRAFT Else\n";
         if (this->isTool()) {
             int count = 0;
             string item_name;
             int durability;
+            cout<<"TES CRAFT TOOL\n";
             for (int i = 0; i < this->getSize(); i++) {
                 if (this->Content[i].item != nullptr) {
                     if (count == 0) {
@@ -140,17 +160,21 @@ void CraftingTable::craft(Container Inventory) {
                 }
             }
 
-            string ids, type, typeTool;
+            // string ids, type, typeTool;
 
-            stringstream words(getIDandTypefromName(item_name));
-            words >> ids >> type >> typeTool;
-
-            int id;
-            stringstream ss(ids);
-            ss >> id;
+            // stringstream words(getIDandTypefromName(item_name));
+            // words >> ids >> type >> typeTool;
+            //  int id;
+            // stringstream ss(ids);
+            // ss >> id;
             
+
+            int id = getIDfromName(item_name);
+            string typeTool = getTypefromName(item_name);
+
+           
             try{
-                Inventory.insert(std::max(durability, 10), *listItem[id]);
+                Inventory.insert(*listItem[id-1], std::max(durability, 10));
 
                 for (int i = 0; i < this->getSize(); i++) {
                     if (this->Content[i].item != nullptr) {
@@ -162,57 +186,80 @@ void CraftingTable::craft(Container Inventory) {
             }
             return;
         } else {
-            std::vector<Recipe*>::iterator ptr;
-            for (ptr = recipes.begin(); ptr < recipes.end(); ptr++) {
-                bool flag = this->check((*ptr)->getBlueprint()) || this->checkMirror((*ptr)->getBlueprint()) || (this->checkSub((*ptr)->getBlueprint(), (*ptr)->getRow(), (*ptr)->getColumn()));
-                if (flag) {
-                    for (int i = 0; i < this->getSize(); i++) {
-                        if (this->Content[i].item != nullptr) {
-                            this->discard(i, 1);
-                            
-                        }
-                    }
-                    /* TO DO: Check Tool atau NonTool */
-                    string ids, type, typeTool;
-                    stringstream words(getIDandTypefromName((*ptr)->getItemName()));
-		            words >> ids >> type >> typeTool;
+            std::vector<Recipe*>::iterator ptr = recipes.begin();
+            cout<<"TES CRAFT NonTool\n";
+            bool flag = false;
+            string item_name;
 
-                    int id;
-                    stringstream ss(ids);
-                    ss >> id;
+            while (ptr < recipes.end() && !flag) {
+                if (this->check((*ptr)->getBlueprint()) || this->checkMirror((*ptr)->getBlueprint()) || (this->checkSub((*ptr)->getBlueprint(), (*ptr)->getRow(), (*ptr)->getColumn()))) {
+                    flag = true;
+                    item_name = (*ptr)->getItemName();
+                }
+                else ptr++;
+            }
 
-                    if (typeTool == "NONTOOL") {
-                        try{
-                            Inventory.insert(10, *listItem[id]);
+            if (flag) {
+                
+                /* TO DO: Check Tool atau NonTool */
+                cout<<"BISA\n";
+                // string ids, type, typeTool;
+                // stringstream words(getIDandTypefromName((*ptr)->getItemName()));
+                // words >> ids >> type >> typeTool;
 
-                            for (int i = 0; i < this->getSize(); i++) {
-                                if (this->Content[i].item != nullptr) {
-                                    this->discard(i, 1);
-                                }
+                // int id;
+                // stringstream ss(ids);
+                // ss >> id;
+                int id = getIDfromName(item_name);
+                string typeTool = getTypefromName(item_name);
+
+                cout<<"id "<<id;
+                cout<<typeTool<<endl;
+                if (typeTool == "Tool") {
+                    cout<<"Hasil Tool\n";
+                    try{
+                        
+                        Inventory.insert(*listItem[id-1], 10);
+                        for (int i = 0; i < this->getSize(); i++) {
+                            if (this->Content[i].item != nullptr) {
+                                this->discard(i, 1);
                             }
-                        } catch (Exception &e){
-                            throw &e;
                         }
-                        return;
-                    } else {
-                        try{
-                            Inventory.insert((*ptr)->getCreatedProduct(), *listItem[id]);
-
-                            for (int i = 0; i < this->getSize(); i++) {
-                                if (this->Content[i].item != nullptr) {
-                                    this->discard(i, 1);
-                                }
-                            }
-                        } catch (Exception &e){
-                            throw &e;
-                        }
-                        return;
+                    } catch (Exception &e){
+                        throw ;
                     }
+                    return;
                 } else {
-                    throw FailedCraftException();
+                    cout<<"Hasil NonTool\n";
+                    // cout<<(*ptr)->getCreatedProduct();
+                    
+                    cout<<"nama "<<(listItem[id-1]->getName());
+                    cout<<" nama "<<(*ptr)->getItemName();
+
+                    
+                    cout << "done til here" << endl;
+                    try{
+                        cout<<"HASIL "<<(*ptr)->getCreatedProduct()<<endl;
+                        cout<<(listItem[id-1]->getName());
+                        Inventory.insert((*ptr)->getCreatedProduct(), *listItem[id-1]);
+                        cout<<"TES DISCARD";
+                        for (int i = 0; i < this->getSize(); i++) {
+                            if (this->Content[i].item != nullptr) {
+                                this->discard(i, 1);
+                            }
+                        }
+                        cout<<"DONE";
+                    } catch (Exception &e){
+                        cout<<"THrow Nontool\n";
+                        throw ;
+                    }
                     return;
                 }
+            } else {
+                throw FailedCraftException();
+                return;
             }
+            
         }
     }
 }

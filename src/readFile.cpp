@@ -12,25 +12,27 @@ ItemType getItemType(string type){
 }
 
 // Read All Config
-vector <Item*> readConfigItem(){
+void readConfigItem(){
     string configPath = "../config/item.txt";
-
-    vector <Item*> listItem;
 	string id , name, type , typeTool;
   	ifstream itemConfigFile(configPath);
     
   	for (string line; getline(itemConfigFile, line);) {
+
 		//get data
 		stringstream words(line);
 		words >> id >> name >> type >> typeTool;
+        
 
 		if (typeTool == "Tool"){	//craft Tool
 			listItem.push_back(new Tool(stoi(id) , name , 10));
+        
 		}else{		                //craft nontool
 			listItem.push_back(new NonTool(stoi(id) , name , getItemType(type)));
+
 		}
   	}
-    return listItem;
+
 }
 
 // Read All Recipee
@@ -102,20 +104,25 @@ void readConfigRecipes(){
 }
 
 // get ID and ItemType of an item
-string getIDandTypefromName(string nama){
+int getIDfromName(string nama){
     string configPath = "./config/item.txt";
 
 	string id , name, type , typeTool;
   	ifstream itemConfigFile(configPath);
 
-    for (string line; getline(itemConfigFile, line);) {
-		//get data
-		stringstream words(line);
-		words >> id >> name >> type >> typeTool;
-
-        if(name == nama){
-            return id + " " + type + " " + typeTool; 
+    for(auto i = listItem.begin(); i != listItem.end(); ++i){
+        if((*i)->getName() == nama){
+            return (*i)->getID();
         }
-  	}
-    return "0 None -"; 
+    }
+    return 0; 
+}
+
+string getTypefromName(string nama){
+    for(auto i = listItem.begin(); i != listItem.end(); ++i){
+        if((*i)->getName() == nama){
+            return (*i)->getTypeToString();
+        }
+    }
+    return NULL_ITEM; 
 }
