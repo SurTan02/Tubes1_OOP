@@ -1,6 +1,7 @@
 #include "../include/Container.hpp"
 #include <iomanip>
 //Constructor
+
 Container::Container(int size) {
     this->size = size;
     this->Content = new Slot[size];
@@ -19,6 +20,9 @@ Container::~Container() {
 
 //Mengembalikan Slot pada Content[index]
 Container::Slot Container::getItem(int index) {
+    if (Content[index].item == nullptr){
+        throw EmptySourceException();
+    }
     return Content[index];
 }
 
@@ -27,9 +31,26 @@ int Container::getSize() {
 }
 
 //BIKIN INSERT KHUSUS ITEM
-// void insert(Item& itemX, int durability);
+void Container::insert(Item& itemX, int durability){
+    bool found = false;
+    int i = 0;
+        while (i < size && !found) {
+            if (Content[i].item == nullptr) {
+                Content[i].item = new Tool(itemX.getID(), itemX.getName(), 10);
+                Content[i].qty = 1;
+                found = true;
+            }
+            i++;
+        }   
+    
+    //Kalau Tidak ditemukan slot yang bisa diinsert menandakan container penuh
+    if (!found){
+        throw FullInventoryException(); 
+    }
+}
 
-//Insert Item, Digunakan pada command give / craft
+
+//Insert Item NonTool, Digunakan pada command give / craft 
 void Container::insert(int n, Item& itemX) {
 
     bool flagNull = false;
@@ -38,8 +59,8 @@ void Container::insert(int n, Item& itemX) {
     i = 0;
 
     //Jika Item yang ditambahkan adalah nontool
-    if (itemX.getType() != ItemType::Tool) {
-        while (i < size && !found) {
+    
+    while (i < size && !found) {
             if (Content[i].item == nullptr) {
 
                 //Penanda Slot yang kosong
@@ -60,25 +81,13 @@ void Container::insert(int n, Item& itemX) {
                 found = true;
             }
             i++;
-        }
-        //Jika tidak ada item serupa, tambahkan pada slot kosong
-        if (flagNull && !found){
-            Content[FirstNull].item = &itemX;
-            Content[FirstNull].qty = n;
-            found = true;
-        }
-        
     }
-    else {
-        i = 0;
-        while (i < size && !found) {
-            if (Content[i].item == nullptr) {
-                Content[i].item = new Tool(itemX.getID(), itemX.getName(), 10);
-                Content[i].qty = 1;
-                found = true;
-            }
-            i++;
-        }   
+    
+    //Jika tidak ada item serupa, tambahkan pada slot kosong
+    if (flagNull && !found){
+        Content[FirstNull].item = &itemX;
+        Content[FirstNull].qty = n;
+        found = true;
     }
     //Kalau Tidak ditemukan slot yang bisa diinsert menandakan container penuh
     if (!found){
@@ -203,5 +212,7 @@ void Container::move(Container& src, int srcIdx, Container& dst, int dstIdx, int
         }
     } catch (Exception& e) {
         cout << e.what() << endl;
+        
     }
+    
 }
