@@ -21,10 +21,10 @@ class CraftingTable : public Container
         bool isEmpty();
         bool isTool();
         bool isNonTool();
-        bool check(vector<string>);
-        bool checkMirror(vector<string>);
-        bool checkSub(vector<string>, int, int);
-        void craft(std::vector<Recipe>, Container);
+        bool check(string*);
+        bool checkMirror(string*);
+        bool checkSub(string*, int, int);
+        void craft(Container);
 };
 
 #endif

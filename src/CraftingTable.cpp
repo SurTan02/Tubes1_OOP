@@ -47,12 +47,11 @@ bool CraftingTable::isNonTool() {
     return flag;
 }
 
-bool CraftingTable::check(vector<string> recipe) {
-    std::vector<string>::iterator ptr;
+bool CraftingTable::check(string* recipe) {
     bool flag = true;
-    int i = 0;
-    for (ptr = recipe.begin(); ptr < recipe.end(); ptr++) {
-        if (this->getName(i) != *ptr) {
+    
+    for (int i = 0; i < 9; i++) {
+        if (this->getName(i) != recipe[i]) {
             flag = false;
         }
 
@@ -61,12 +60,12 @@ bool CraftingTable::check(vector<string> recipe) {
     return flag;
 }
 
-bool CraftingTable::checkMirror(std::vector<string> recipe) {
+bool CraftingTable::checkMirror(string* recipe) {
     std::vector<string>::iterator ptr;
     bool flag = true;
     int i = 2;
-    for (ptr = recipe.begin(); ptr < recipe.end(); ptr++) {
-        if (this->getName(i) != *ptr) {
+    for (int j = 0; j < 9; j++) {
+        if (this->getName(i) != recipe[j]) {
             flag = false;
         }
 
@@ -79,16 +78,25 @@ bool CraftingTable::checkMirror(std::vector<string> recipe) {
     return flag;
 }
 
-bool CraftingTable::checkSub(std::vector<string> recipe, int row, int column) {
+bool CraftingTable::checkSub(string* recipe, int row, int column) {
     if (row != 3 && column != 3) {
-        std::vector<string> temp = recipe;
+        string* temp = new string[9];
+
+        for (int i = 0; i < 9; i++) {
+            temp[i] = recipe[i];
+        }
+
         int n = 9 - ((row - 1) * 3 + (column - 1)) - 1;
         for (int i = 0; i < n; i++) {
             if (this->check(temp) || this->checkMirror(temp)) {
                 return true;
             }
-            temp.pop_back();
-            temp.insert(temp.begin(), NULL_ITEM);
+
+            for (int j = 1; j < 9; j++) {
+                temp[j] = temp[j - 1];
+            }
+
+            temp[0] = NULL_ITEM;
         }
         return false;
     } else {
@@ -99,10 +107,11 @@ bool CraftingTable::checkSub(std::vector<string> recipe, int row, int column) {
 
 //Tambah parameter inventory
 //Jadi void
-void CraftingTable::craft(std::vector<Recipe> recipes, Container Inventory) {
+// void CraftingTable::craft(std::vector<Recipe> recipes, Container Inventory) {
+void CraftingTable::craft(Container Inventory) {
     if (this->isEmpty()) {
         throw FailedCraftException();
-        return;
+        
     } else {
         if (this->isTool()) {
             int count = 0;
@@ -119,10 +128,12 @@ void CraftingTable::craft(std::vector<Recipe> recipes, Container Inventory) {
                             durability += ((Tool*) this->getItem(i).item)->getDurability();
                             count++;
                         } else {
+                            
                             throw FailedCraftException();
                             return;
                         }
                     } else {
+                        
                         throw FailedCraftException();
                         return;
                     }
@@ -151,9 +162,9 @@ void CraftingTable::craft(std::vector<Recipe> recipes, Container Inventory) {
             }
             return;
         } else {
-            std::vector<Recipe>::iterator ptr;
+            std::vector<Recipe*>::iterator ptr;
             for (ptr = recipes.begin(); ptr < recipes.end(); ptr++) {
-                bool flag = this->check(ptr->getBlueprint()) || this->checkMirror(ptr->getBlueprint()) || (this->checkSub(ptr->getBlueprint(), ptr->getRow(), ptr->getColumn()));
+                bool flag = this->check((*ptr)->getBlueprint()) || this->checkMirror((*ptr)->getBlueprint()) || (this->checkSub((*ptr)->getBlueprint(), (*ptr)->getRow(), (*ptr)->getColumn()));
                 if (flag) {
                     for (int i = 0; i < this->getSize(); i++) {
                         if (this->Content[i].item != nullptr) {
@@ -163,7 +174,7 @@ void CraftingTable::craft(std::vector<Recipe> recipes, Container Inventory) {
                     }
                     /* TO DO: Check Tool atau NonTool */
                     string ids, type, typeTool;
-                    stringstream words(getIDandTypefromName(ptr->getItemName()));
+                    stringstream words(getIDandTypefromName((*ptr)->getItemName()));
 		            words >> ids >> type >> typeTool;
 
                     int id;
@@ -185,7 +196,7 @@ void CraftingTable::craft(std::vector<Recipe> recipes, Container Inventory) {
                         return;
                     } else {
                         try{
-                            Inventory.insert(ptr->getCreatedProduct(), *listItem[id]);
+                            Inventory.insert((*ptr)->getCreatedProduct(), *listItem[id]);
 
                             for (int i = 0; i < this->getSize(); i++) {
                                 if (this->Content[i].item != nullptr) {

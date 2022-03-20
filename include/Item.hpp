@@ -1,8 +1,6 @@
 #ifndef ITEM_HPP
 #define ITEM_HPP
 
-#define NULL_ITEM "NULLITEM"
-
 #include <string>
 #include <cstdint>
 #include <vector>

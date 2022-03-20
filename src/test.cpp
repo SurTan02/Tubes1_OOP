@@ -7,7 +7,6 @@
 #include "../include/readFile.hpp"
 #include "../include/CraftingTable.hpp"
 using namespace std;
-vector<Item*> listItem;
 
 // void printWords(string str)
 // {

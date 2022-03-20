@@ -3,18 +3,19 @@
 
 #include <vector>
 #include <string>
-#define NULL_ITEM "NULLITEM"
+#define NULL_ITEM "-"
 using namespace std;
 
 class Recipe{
     private :
         int row;
         int column;
-        vector<string> blueprint;
+        string* blueprint;
         string itemName;
         int createdProduct;
     public :
         // Constructor
+        Recipe();
         Recipe(int , int);
         ~Recipe();
 
@@ -28,7 +29,7 @@ class Recipe{
         
         // Blueprint Properties
         void setBlueprint(int , string);
-        vector<string> getBlueprint();
+        string* getBlueprint();
         
         // Operator
         string operator[](int);
@@ -43,6 +44,6 @@ class Recipe{
 
 };
 
-vector<Recipe> recipes;
+extern vector<Recipe*> recipes;
 
 #endif

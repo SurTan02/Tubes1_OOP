@@ -6,14 +6,26 @@ using namespace std;
 // blueprint = []
 // itemName = "NULLITEM"
 // createdProduct = 0
+Recipe::Recipe() : row(0), column(0), itemName(NULL_ITEM), createdProduct(0) {
+    this->blueprint = new string[9];
+    for (int i = 0; i < 9; i++) {
+        this->blueprint[i] = NULL_ITEM;
+    }
+}
+
 Recipe::Recipe(int row , int col) : 
     row(row) , column(col) ,
     itemName(NULL_ITEM) ,
     createdProduct(0)
-    {}
+{
+    this->blueprint = new string[9];
+    for (int i = 0; i < 9; i++) {
+        this->blueprint[i] = NULL_ITEM;
+    }
+}
 
 Recipe::~Recipe(){
-    blueprint.clear();
+    delete[] this->blueprint;
 }
 
 void Recipe::setRow(int row) {
@@ -33,10 +45,10 @@ int Recipe::getColumn() const {
 }
 
 void Recipe::setBlueprint(int idx , string item) {
-    blueprint[idx] = item;
+    this->blueprint[idx] = item;
 }
 
-vector<string> Recipe::getBlueprint() {
+string* Recipe::getBlueprint() {
     return this->blueprint;
 }
 
@@ -49,7 +61,7 @@ void Recipe::setItemName(string name) {
 }
 
 string Recipe::getItemName() const {
-    return itemName;
+    return this->itemName;
 }
 
 void Recipe::setCreatedProduct(int quantity) {
