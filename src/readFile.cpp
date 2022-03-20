@@ -1,5 +1,7 @@
 #include "../include/readFile.hpp"
 
+vector<Recipe> recipes;
+
 ItemType getItemType(string type){
 	if(type == "-")				{return ItemType::None;}
 	else if(type == "LOG")		{return ItemType::Log;}
@@ -10,7 +12,7 @@ ItemType getItemType(string type){
 
 // Read All Config
 vector <Item*> readConfigItem(){
-    string configPath = "./config/item.txt";
+    string configPath = "../config/item.txt";
 
     vector <Item*> listItem;
 	string id , name, type , typeTool;
@@ -31,54 +33,88 @@ vector <Item*> readConfigItem(){
 }
 
 // Read All Recipee
-vector <Recipe> readConfigRecipes(){
-    string configPath = "./config/recipe/";
+// vector <Recipe> readConfigRecipes(){
+vector<Recipe> readConfigRecipes(){
+    string configPath = "../config/recipe/";
+    
     DIR *dir;
     struct dirent *ent;
 
-    vector <Recipe> recipes;
+    //vector <Recipe> recipes;
     int lineRead = 0;
     string row , col , itemName , quantity;
     string material1 , material2 , material3;
     int idx_bp = 0;
+/*
+    cout<<"OPENDIR " << (opendir("../config/recipe/") == NULL) << endl;
 
-    if ((dir = opendir ("config/recipe/")) != NULL) {		/* print all the files and directories within directory */
+    struct dirent *d;
+    DIR *dr;
+    dr = opendir("../config/recipe/");
+    if(dr!=NULL)
+    {
+        cout<<"List of Files & Folders:-\n";
+        for(d=readdir(dr); d!=NULL; d=readdir(dr))
+        {
+            cout<<d->d_name<<endl;
+        }
+        closedir(dr);
+    }
+    else
+        cout<<"\nError Occurred!";
+    cout<<endl;
+*/
+    if ((dir = opendir("../config/recipe/")) != NULL) {		/* print all the files and directories within directory */
         int n = 2;
         int idx = 0;
-        while ((ent = readdir (dir)) != NULL) {
+        cout<<"masuk dir" <<endl; 
+        while ((ent = readdir(dir)) != NULL) {
+            // cout<< ent <<" + " << *dir<<endl;  
+            
             if(n != 0)	{n--;}
-            else{  // read file path
+            else {  // read file path
                 idx++;
                 ifstream itemConfigFile(configPath + ent->d_name);
+                cout << configPath + ent->d_name << endl;
+                Recipe tempRecipe;
+
                 for (string line; getline(itemConfigFile, line);) {
+    
                     // initialize blueprint's materials
                     material1 = NULL_ITEM;
                     material2 = NULL_ITEM;
                     material3 = NULL_ITEM;
-
+                    
                     stringstream words(line);
                     lineRead++;
+                    cout<<"'for' line : " << line<<endl;
                     if(lineRead == 1){
+                        cout<<"lineRead1 : " << line<<endl;
                         words >> row >> col;
-                        recipes[idx].setRow(stoi (row));
-                        recipes[idx].setRow(stoi (col));
+                        tempRecipe.setRow(stoi(row));
+                        tempRecipe.setColumn(stoi(col));
                         lineRead += 3 - stoi(row);          //adjust total line of recipe.txt
-                    }else if (lineRead == 5){
+                    }else if (lineRead == 5){               // last line on recipe.txt
+                        cout<<"last Line : " << line<<endl;
                         words >> itemName >> quantity;
-                        recipes[idx].setItemName(itemName);
-                        recipes[idx].setCreatedProduct(stoi (quantity));
+                        tempRecipe.setItemName(itemName);
+                        tempRecipe.setCreatedProduct(stoi (quantity));
                     }else{
-                        if(recipes[idx].getColumn() == 1)       {words >> material1;}
-                        else if (recipes[idx].getColumn() == 2) {words >> material1 >> material2;}
-                        else if (recipes[idx].getColumn() == 3) {words >> material1 >> material2 >> material3;}
+                        cout<<"other line : " << line<<endl;
+                        if(tempRecipe.getColumn() == 1)       {words >> material1;}
+                        else if (tempRecipe.getColumn() == 2) {words >> material1 >> material2;}
+                        else if (tempRecipe.getColumn() == 3) {words >> material1 >> material2 >> material3;}
 
-                        recipes[idx].setBlueprint(idx_bp , material1);
-                        recipes[idx].setBlueprint(idx_bp+1 , material2);
-                        recipes[idx].setBlueprint(idx_bp+2 , material3);
+                        tempRecipe.setBlueprint(idx_bp , material1);
+                        tempRecipe.setBlueprint(idx_bp+1 , material2);
+                        tempRecipe.setBlueprint(idx_bp+2 , material3);
                         idx_bp+= 3;
-                    }
-                }
+                    }  
+                } 
+                recipes.push_back(tempRecipe);
             }
+
+            cout<<"size recipe" <<recipes.size() <<endl;  
         }
         closedir (dir);
     } else {perror ("");}									/* could not open directory */
