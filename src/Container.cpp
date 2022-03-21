@@ -1,3 +1,8 @@
+// NOTE
+// ------------------------------------------------
+// Perlu handle kasus di mana give bernilai negatif
+// ------------------------------------------------
+
 #include "../include/Container.hpp"
 #include <iomanip>
 //Constructor
