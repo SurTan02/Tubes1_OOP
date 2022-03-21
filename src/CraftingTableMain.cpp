@@ -42,20 +42,34 @@ int main(){
     // for (int i = 0 ; i < 9 ; i++){
     //     craftingTable.insert(1,*listItem[10],i);
     // }
-    craftingTable.insert(1,*listItem[0],4);
+
+    // 0 1 2
+    // 3 4 5
+    // 6 7 8
+    Tool* tool1 = new Tool(2,"Tool3",10);
+
+
+    // CRAFTING
+    // listItem.push_back(new Tool(2,"Tool3",10));
+    // listItem.push_back(new NonTool(3,"NonTool1",ItemType::Log));
+    craftingTable.insert(1,*listItem[23],0);
+    craftingTable.insert(1,*listItem[23],8);
+
+    // DISPLAY CRAFTING
     inventory.display();
+
     std::cout<<"-----------------B4 craft------------------\n";
     craftingTable.display();
     std::cout<<"-----------------------------------\n";
     //readConfigRecipes();
     cout<<"resep "<<recipes.size()<<endl;
-    
+    cout<<endl;
     // PRINT LIST RECIPES -------------------------------------------
     // for (int i=0 ; i < recipes.size(); i++){
     //     cout<<recipes[i]->getItemName() <<" + "<< recipes[i]->getCreatedProduct()<<endl;
     //      delete recipes[i];
     // }
-
+    cout<<endl;
     // CRAFT ITEM
     try{
         cout<<"TES CRAFT\n";
@@ -64,11 +78,15 @@ int main(){
         std::cout<<e.what();
         //cout<<"TESCATCH\n";
     }
+    cout<<endl;
+
     inventory.display();
     std::cout<<"-----------------------------------\n";
     craftingTable.display();
     std::cout<<"-----------------------------------\n";
-    
+
+    cout<<endl;
+
     // PRINT LIST ITEM -------------------------------------------
     cout<<listItem.size()<<endl;
     for (int i=0 ; i < listItem.size(); i++){
@@ -79,3 +97,58 @@ int main(){
     
     return 0;
 }
+
+/*
+BIRCH PLANK
+craftingTable.insert(1,*listItem[3],3);
+
+DIAMOND AXE
+craftingTable.insert(1,*listItem[12],0);
+craftingTable.insert(1,*listItem[12],1);
+craftingTable.insert(1,*listItem[12],3);
+craftingTable.insert(1,*listItem[7],4);
+craftingTable.insert(1,*listItem[7],7);
+
+DIAMOND PICKAXE
+craftingTable.insert(1,*listItem[12],0);
+craftingTable.insert(1,*listItem[12],1);
+craftingTable.insert(1,*listItem[12],2);
+craftingTable.insert(1,*listItem[7],4);
+craftingTable.insert(1,*listItem[7],7);
+
+DIAMON SWORD
+craftingTable.insert(1,*listItem[12],0);
+craftingTable.insert(1,*listItem[12],3);
+craftingTable.insert(1,*listItem[12],6);
+
+IRON INGOT
+craftingTable.insert(1,*listItem[11],0);
+craftingTable.insert(1,*listItem[11],0);
+craftingTable.insert(1,*listItem[11],0);
+craftingTable.insert(1,*listItem[11],0);
+craftingTable.insert(1,*listItem[11],0);
+craftingTable.insert(1,*listItem[11],0);
+craftingTable.insert(1,*listItem[11],0);
+craftingTable.insert(1,*listItem[11],0);
+craftingTable.insert(1,*listItem[11],0);
+
+IRON NUGGET
+craftingTable.insert(1,*listItem[10],5);
+
+
+
+stick
+PLANK
+PLANK
+
+PLANK, PLANK
+
+PLANK
+PLANK
+
+
+PLANK PLANK -
+- - -
+- - -
+
+*/
