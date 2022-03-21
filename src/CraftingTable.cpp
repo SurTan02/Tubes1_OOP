@@ -4,6 +4,7 @@
  * uncomment ini untuk mengoutput dari crafting table
  */
 // #define DEBUG
+// #define DEBUG_MIRROR
 
 CraftingTable::CraftingTable() : Container(9) {}
 
@@ -82,7 +83,7 @@ bool CraftingTable::checkMirror(string* recipe) {
     bool flag = true;
     int i = 2;
     for (int j = 0; j < 9; j++) {
-        if (!(this->getName(i) == recipe[i] || this->getType(i) == recipe[i])) {
+        if (!(this->getName(i) == recipe[j] || this->getType(i) == recipe[j])) {
             flag = false;
         }
 
