@@ -50,8 +50,12 @@ int main() {
 			craftingTable.display();
 			cout << "---------------------------------------------\n";
 		} else if (command == "CRAFT") {					// CRAFT ITEM
-
-			craftingTable.craft(inv);
+			try{
+				craftingTable.craft(inv);
+			}catch(Exception &e){
+				cout<<e.what();
+			}
+			
 
 		} else if (command == "GIVE") {						// GIVE ITEM
 			string itemName;
@@ -83,8 +87,8 @@ int main() {
 				{
 					inv.insert(itemQty, *listItem[itemIndex]);
 				}
-			}catch (Exception &e){
-				e.what();
+			}catch(Exception &e){
+				cout<<e.what();
 			}
 		} else if (command == "MOVE") {
 			string slotSrc;
@@ -155,20 +159,24 @@ int main() {
 			} else {
 				source = &craftingTable;
 			}
+			try{
+				//cout << "numero trio\n";
+				for (int i=0; i<slotDest.size(); i++)
+				{
+					if(slotDestType[i] == 'I') {
+						destination = &inv;
+					} else {
+						destination = &craftingTable;
+					}
 
-			//cout << "numero trio\n";
-			for (int i=0; i<slotDest.size(); i++)
-			{
-				if(slotDestType[i] == 'I') {
-					destination = &inv;
-				} else {
-					destination = &craftingTable;
+					Container::move(*source, slotSrcIdx, *destination, slotDestIdx[i], slotQty);
+					//cout << i;
 				}
-
-				Container::move(*source, slotSrcIdx, *destination, slotDestIdx[i], slotQty);
-				//cout << i;
+				//cout << "\ndone\n";
+			}catch(Exception &e){
+				cout<<e.what();
 			}
-			//cout << "\ndone\n";
+			
 
 
 			/**
@@ -206,13 +214,20 @@ int main() {
 			/**
 			 * mengecek tipe dari slot
 			 */
-			if(slotType == 'I') {
-				Tool* temp = (Tool*) inv.getItem(slotIdx).item;
-				temp->use();
-			} else {
-				Tool* temp = (Tool*) craftingTable.getItem(slotIdx).item;
-				temp->use();
+			try{
+				if(slotType == 'I') {
+					Tool* temp = (Tool*) inv.getItem(slotIdx).item;
+					temp->use();
+					if (temp->getDurability() == 0) inv.discard(slotIdx,1);
+				} else {
+					Tool* temp = (Tool*) craftingTable.getItem(slotIdx).item;
+					temp->use();
+					if (temp->getDurability() == 0) craftingTable.discard(slotIdx,1);
+				}
+			}catch(Exception &e){
+				cout<<e.what();
 			}
+			
 		} else if(command == "DISCARD") {
 			string slot;
 			int qty;
@@ -229,11 +244,14 @@ int main() {
 			/**
 			 * mengecek tipe dari slot
 			 */
-
-			if(slotType == 'I') {
-				inv.discard(slotIdx, qty);
-			} else {
-				craftingTable.discard(slotIdx, qty);
+			try{
+				if(slotType == 'I') {
+					inv.discard(slotIdx, qty);
+				} else {
+					craftingTable.discard(slotIdx, qty);
+				}
+			}catch(Exception &e){
+				cout<<e.what();
 			}
 		} else if(command == "AVAILABLE"){
 			showAvailableItem();
