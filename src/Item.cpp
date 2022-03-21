@@ -23,15 +23,15 @@ ItemType Item::getType(){
 string Item::getTypeToString() {
     switch (type){
         case ItemType::None:
-            return "None";
+            return "NONE";
         case ItemType::Log:
-            return "Log";
+            return "LOG";
         case ItemType::Plank:
-            return "Plank";
+            return "PLANK";
         case ItemType::Stone:
-            return "Stone";
+            return "STONE";
         case ItemType::Tool:
-            return "Tool";
+            return "TOOL";
         default:
             return "ERROR";
             break;
