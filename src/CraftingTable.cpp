@@ -3,7 +3,7 @@
 /**
  * uncomment ini untuk mengoutput dari crafting table
  */
-// #define DEBUG
+#define DEBUG
 
 CraftingTable::CraftingTable() : Container(9) {}
 
@@ -57,7 +57,9 @@ bool CraftingTable::check(string* recipe) {
     bool flag = true;
     
     for (int i = 0; i < 9; i++) {
-        // cout<< this->getName(i) <<" + "<< recipe[i]<<endl;
+        #ifdef DEBUG
+        cout<< this->getName(i) <<" == "<< recipe[i]<<endl;
+        #endif
         if (this->getName(i) != recipe[i]) {
             flag = false;
         }
@@ -98,11 +100,11 @@ bool CraftingTable::checkSub(string* recipe, int row, int column) {
 
         #ifdef DEBUG
         cout << "Recipe" << endl;
-        #endif
+
         for (int i = 0; i < 9; i++) {
             cout << recipe[i] << " ";
         }
-        #ifdef DEBUG
+        
         cout << endl;
         #endif
 
@@ -122,7 +124,7 @@ bool CraftingTable::checkSub(string* recipe, int row, int column) {
                 return true;
             }
 
-            for (int j = 1; j < 9; j++) {
+            for (int j = 8; j > 0; j--) {
                 temp[j] = temp[j - 1];
             }
 
@@ -142,7 +144,6 @@ void CraftingTable::craft(Container& Inventory) {
     #ifdef DEBUG
     cout<<"TES Craft 1\n";
     #endif
-
     if (this->isEmpty()) {
         #ifdef DEBUG
         cout<<"TES CRAFT EMpty\n";
@@ -219,6 +220,9 @@ void CraftingTable::craft(Container& Inventory) {
             string item_name;
 
             while (ptr < recipes.end() && !flag) {
+                #ifdef DEBUG
+                cout<< "RESEP SEKARANG " << (*ptr)->getItemName() << endl;
+                #endif
                 if (this->check((*ptr)->getBlueprint()) || this->checkMirror((*ptr)->getBlueprint()) || (this->checkSub((*ptr)->getBlueprint(), (*ptr)->getRow(), (*ptr)->getColumn()))) {
                     flag = true;
                     item_name = (*ptr)->getItemName();
