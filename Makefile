@@ -1,26 +1,31 @@
-TC_FOLDER = tests
-EXT_IN = in
-EXT_OUT = out
-EXT_ANS = ans
-EXECUTABLE_FILENAME = main
-ALL_SRCS := $(wildcard *.cpp) $(wildcard src/*.cpp)
-SRCS     := $(filter-out check.cpp, $(ALL_SRCS))
+SRCS := awenmain.cpp $(filter-out src/test.cpp src/InventoryMain.cpp src/CraftingTableMain.cpp, $(wildcard src/*.cpp))
 
-all: compile test check
+test:
+	g++ -std=c++17 -o main.exe $(SRCS)
 
-# Compile all cpp files except check.cpp
-compile:
-	g++ -std=c++17 -o $(EXECUTABLE_FILENAME) $(SRCS)
+# TC_FOLDER = tests
+# EXT_IN = in
+# EXT_OUT = out
+# EXT_ANS = ans
+# EXECUTABLE_FILENAME = main
+# ALL_SRCS := $(wildcard *.cpp) $(wildcard src/*.cpp)
+# SRCS     := $(filter-out check.cpp, $(ALL_SRCS))
 
-# Test
-test: $(TC_FOLDER)/*.$(EXT_IN) $(EXECUTABLE_FILENAME)
-	for inputfile in $(TC_FOLDER)/*.$(EXT_IN); do \
-		./$(EXECUTABLE_FILENAME) < $$inputfile; \
-	done;
+# all: compile test check
 
-# Check
-check: FORCE check.cpp
-	g++ -std=c++17 -o check check.cpp
-	./check
+# # Compile all cpp files except check.cpp
+# compile:
+# 	g++ -std=c++17 -o $(EXECUTABLE_FILENAME) $(SRCS)
 
-FORCE: ;
+# # Test
+# test: $(TC_FOLDER)/*.$(EXT_IN) $(EXECUTABLE_FILENAME)
+# 	for inputfile in $(TC_FOLDER)/*.$(EXT_IN); do \
+# 		./$(EXECUTABLE_FILENAME) < $$inputfile; \
+# 	done;
+
+# # Check
+# check: FORCE check.cpp
+# 	g++ -std=c++17 -o check check.cpp
+# 	./check
+
+# FORCE: ;

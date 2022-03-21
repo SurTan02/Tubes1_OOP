@@ -44,6 +44,4 @@ class Recipe{
 
 };
 
-extern vector<Recipe*> recipes;
-
 #endif

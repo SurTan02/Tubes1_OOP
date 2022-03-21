@@ -1,5 +1,10 @@
 #include "../include/CraftingTable.hpp"
 
+/**
+ * uncomment ini untuk mengoutput dari crafting table
+ */
+// #define DEBUG
+
 CraftingTable::CraftingTable() : Container(9) {}
 
 string CraftingTable::getName(int n) {
@@ -81,7 +86,9 @@ bool CraftingTable::checkMirror(string* recipe) {
 }
 
 bool CraftingTable::checkSub(string* recipe, int row, int column) {
+    #ifdef DEBUG
     cout << "MASUK CHECK SUB" << endl;
+    #endif
     if (row != 3 && column != 3) {
         string* temp = new string[9];
 
@@ -89,20 +96,27 @@ bool CraftingTable::checkSub(string* recipe, int row, int column) {
             temp[i] = recipe[i];
         }
 
+        #ifdef DEBUG
         cout << "Recipe" << endl;
+        #endif
         for (int i = 0; i < 9; i++) {
             cout << recipe[i] << " ";
         }
+        #ifdef DEBUG
         cout << endl;
+        #endif
 
         int n = 9 - ((row - 1) * 3 + (column - 1)) - 1;
         for (int i = 0; i < n; i++) {
             
+            #ifdef DEBUG
             cout << "SUB" << endl;
+
             for (int i = 0; i < 9; i++) {
                 cout << temp[i] << " ";
             }
             cout << endl;
+            #endif
 
             if (this->check(temp) || this->checkMirror(temp)) {
                 return true;
@@ -125,18 +139,29 @@ bool CraftingTable::checkSub(string* recipe, int row, int column) {
 //Jadi void
 // void CraftingTable::craft(std::vector<Recipe> recipes, Container Inventory) {
 void CraftingTable::craft(Container& Inventory) {
+    #ifdef DEBUG
     cout<<"TES Craft 1\n";
+    #endif
+
     if (this->isEmpty()) {
+        #ifdef DEBUG
         cout<<"TES CRAFT EMpty\n";
+        #endif
+
         throw FailedCraftException();
     
     } else {
+        #ifdef DEBUG
         cout<<"TES CRAFT Else\n";
+        #endif
+
         if (this->isTool()) {
             int count = 0;
             string item_name;
             int durability;
+            #ifdef DEBUG
             cout<<"TES CRAFT TOOL\n";
+            #endif
             for (int i = 0; i < this->getSize(); i++) {
                 if (this->Content[i].item != nullptr) {
                     if (count == 0) {
@@ -187,7 +212,9 @@ void CraftingTable::craft(Container& Inventory) {
             return;
         } else {
             std::vector<Recipe*>::iterator ptr = recipes.begin();
+            #ifdef DEBUG
             cout<<"TES CRAFT NonTool\n";
+            #endif
             bool flag = false;
             string item_name;
 
@@ -202,7 +229,9 @@ void CraftingTable::craft(Container& Inventory) {
             if (flag) {
                 
                 /* TO DO: Check Tool atau NonTool */
+                #ifdef DEBUG
                 cout<<"BISA\n";
+                #endif
                 // string ids, type, typeTool;
                 // stringstream words(getIDandTypefromName((*ptr)->getItemName()));
                 // words >> ids >> type >> typeTool;
@@ -213,10 +242,14 @@ void CraftingTable::craft(Container& Inventory) {
                 int id = getIDfromName(item_name);
                 string typeTool = getTypefromName(item_name);
 
+                #ifdef DEBUG
                 cout<<"id "<<id;
                 cout<<typeTool<<endl;
+                #endif
                 if (typeTool == "Tool") {
+                    #ifdef DEBUG
                     cout<<"Hasil Tool\n";
+                    #endif
                     try{
                         
                         Inventory.insert(*listItem[id-1], 10);
@@ -230,6 +263,7 @@ void CraftingTable::craft(Container& Inventory) {
                     }
                     return;
                 } else {
+                    #ifdef DEBUG
                     cout<<"Hasil NonTool\n";
                     // cout<<(*ptr)->getCreatedProduct();
                     
@@ -238,17 +272,30 @@ void CraftingTable::craft(Container& Inventory) {
 
                     
                     cout << "done til here" << endl;
+                    #endif
+
                     try{
+                        #ifdef DEBUG
                         cout<<"HASIL "<<(*ptr)->getCreatedProduct()<<endl;
                         cout<<(listItem[id-1]->getName());
+                        #endif
+
                         Inventory.insert((*ptr)->getCreatedProduct(), *listItem[id-1]);
+
+                        #ifdef DEBUG
                         cout<<"TES DISCARD";
+                        #endif
+
                         for (int i = 0; i < this->getSize(); i++) {
                             if (this->Content[i].item != nullptr) {
                                 this->discard(i, 1);
                             }
                         }
+
+                        #ifdef DEBUG
                         cout<<"DONE";
+                        #endif
+
                     } catch (Exception &e){
                         cout<<"THrow Nontool\n";
                         throw ;

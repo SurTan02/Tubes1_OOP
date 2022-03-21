@@ -30,4 +30,7 @@ int getIDfromName(string);
 // Menentukan ItemType berdasarkan nama Item
 string getTypefromName(string);
 
+extern vector<Recipe*> recipes;
+extern vector<Item*> listItem;
+
 #endif

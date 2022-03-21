@@ -13,12 +13,12 @@ ItemType getItemType(string type){
 
 // Read All Config
 void readConfigItem(){
-    string configPath = "../config/item.txt";
+
+    string configPath = "config/item.txt";
 	string id , name, type , typeTool;
   	ifstream itemConfigFile(configPath);
     
   	for (string line; getline(itemConfigFile, line);) {
-
 		//get data
 		stringstream words(line);
 		words >> id >> name >> type >> typeTool;
@@ -37,7 +37,7 @@ void readConfigItem(){
 
 // Read All Recipee
 void readConfigRecipes(){
-    string configPath = "../config/recipe/";
+    string configPath = "config/recipe/";
     
     DIR *dir;
     struct dirent *ent;
@@ -48,12 +48,18 @@ void readConfigRecipes(){
     string material1 , material2 , material3;
     int idx_bp = 0;
 
-    if ((dir = opendir("../config/recipe/")) != NULL) {		/* print all the files and directories within directory */
+    /**
+     * .c_str digunakan
+     * untuk mendapatkan
+     * const char* dari
+     * sebuah class
+     * std::string
+     */
+    if ((dir = opendir(configPath.c_str())) != NULL) {		/* print all the files and directories within directory */
         int n = 2;
         int idx = 0;
          
         while ((ent = readdir(dir)) != NULL) {
-           
             lineRead = 0;
             idx_bp = 0;
             
@@ -105,7 +111,7 @@ void readConfigRecipes(){
 
 // get ID and ItemType of an item
 int getIDfromName(string nama){
-    string configPath = "./config/item.txt";
+    string configPath = "config/item.txt";
 
 	string id , name, type , typeTool;
   	ifstream itemConfigFile(configPath);

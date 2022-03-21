@@ -86,8 +86,20 @@ void Container::insert(int n, Item& itemX) {
     //Jika tidak ada item serupa, tambahkan pada slot kosong
     if (flagNull && !found){
         Content[FirstNull].item = &itemX;
-        Content[FirstNull].qty = n;
-        found = true;
+        /**
+         * apabila jumlah item lebih banyak daripada 64
+         */
+        if(n > 64) {
+            Content[FirstNull].qty = 64;
+            insert(n-64, itemX);
+            found = true;
+        /**
+         * apabila jumlah item tidak lebih banyak daripada 64
+         */
+        } else {
+            Content[FirstNull].qty = n;
+            found = true;
+        }
     }
     //Kalau Tidak ditemukan slot yang bisa diinsert menandakan container penuh
     if (!found){
@@ -164,6 +176,7 @@ void Container::display() {
             std::cout<<std::endl;// << std::setw(-25);
         }        
     }
+    std::cout << std::setw(0);
 }
 
 
