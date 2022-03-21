@@ -35,19 +35,20 @@ int main() {
 	string command;
 	cout << "Command : ";
 	while (cin >> command) {
-		if (command == "EXPORT") {
-			exportFile(inv);
-
-			cout << "Exported" << endl;
+		if (command == "EXPORT") {							// EXPORT FILE
+			string outputPath;
+    		cin >> outputPath;		//nama file
+			exportFile(inv , outputPath);
+			cout << "File successfully exported ❤️" << endl;
 			
-		} else if (command == "SHOW") {
+		} else if (command == "SHOW") {						// SHOW INVENTORY
 			inv.display();
 			craftingTable.display();
-		} else if (command == "CRAFT") {
+		} else if (command == "CRAFT") {					// CRAFT ITEM
 
 			craftingTable.craft(inv);
 
-		} else if (command == "GIVE") {
+		} else if (command == "GIVE") {						// GIVE ITEM
 			string itemName;
 			int itemQty;
 			cin >> itemName >> itemQty;
@@ -110,12 +111,16 @@ int main() {
 			 * mengeset akhir container
 			 */
 			if(slotDestType == 'I') {
+				// semua
 				destination = &inv;
+				Container::move(*source, slotSrcIdx, *destination, slotDestIdx);
 			} else {
+				// hanya sesuai input
 				destination = &craftingTable;
+				Container::move(*source, slotSrcIdx, *destination, slotDestIdx, slotQty);
 			}
 
-			Container::move(*source, slotSrcIdx, *destination, slotDestIdx, slotQty);
+			//Container::move(*source, slotSrcIdx, *destination, slotDestIdx, slotQty);
 
 		} else if(command == "USE") {
 			string slot;
@@ -161,6 +166,9 @@ int main() {
 			} else {
 				craftingTable.discard(slotIdx, qty);
 			}
+		} else if(command == "AVAILABLE ITEM"){
+			showAvailableItem();
+		}
 		} else {
 			// todo
 			cout << "Invalid command" << endl;

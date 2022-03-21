@@ -19,9 +19,10 @@ int main() {
 	string command;
 	cout << "Command : ";
 	while (cin >> command) {
-		if (command == "EXPORT") {
+		if (command == "SHOW"){
+			inv.display();
+		} else if (command == "EXPORT") {
 			exportFile(inv);
-
 			cout << "Exported" << endl;
 			
 		} else if (command == "CRAFT") {
@@ -31,7 +32,7 @@ int main() {
 			string itemName;
 			int itemQty;
 			cin >> itemName >> itemQty;
-			cout << "TODO" << endl;
+			cout << "give done" << endl;
 
 		} else if (command == "MOVE") {
 			string slotSrc;
@@ -49,3 +50,10 @@ int main() {
 	}
   return 0;
 }
+Show : tampilan
+Give : Menambahkan Item ke Inventory.
+Discard : Membuang item di slot inventory dengan kuantitas yang diberikan.
+Move : Memindahkan Item ke slot crafting    |    Menumpuk Item.   |   Mengembalikan Item dari slot crafting ke inventory.
+Use : Menggunakan Item.
+Craft : Craft Item.
+Export : Export Inventor

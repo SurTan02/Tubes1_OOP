@@ -18,6 +18,9 @@ using namespace std;
 // Menentukan itemType dari string type
 ItemType getItemType(string);
 
+// Display item yang tersedia
+void showAvailableItem();
+
 // Membaca item.txt
 void readConfigItem();
 

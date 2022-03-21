@@ -3,6 +3,6 @@
 
 #include "Container.hpp"
 
-void exportFile(Container);
+void exportFile(Container, string);
 
 #endif

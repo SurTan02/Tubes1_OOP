@@ -12,9 +12,7 @@
 #include <vector>
 
 
-void exportFile(Container inv){
-    string outputPath;
-    cin >> outputPath;		//nama file
+void exportFile(Container inv , string outputPath){
     ofstream outputFile(outputPath);
 
     for(int i = 0; i < 27; i++) {

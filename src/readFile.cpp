@@ -35,6 +35,12 @@ void readConfigItem(){
 
 }
 
+void showAvailableItem(){
+    for(auto i = listItem.begin(); i != listItem.end(); ++i){
+        cout<<(*i)->getID()<<" "<<(*i)->getName()<<" "<<(*i)->getTypeToString();
+    }
+}
+
 // Read All Recipee
 void readConfigRecipes(){
     string configPath = "config/recipe/";
@@ -111,11 +117,6 @@ void readConfigRecipes(){
 
 // get ID and ItemType of an item
 int getIDfromName(string nama){
-    string configPath = "config/item.txt";
-
-	string id , name, type , typeTool;
-  	ifstream itemConfigFile(configPath);
-
     for(auto i = listItem.begin(); i != listItem.end(); ++i){
         if((*i)->getName() == nama){
             return (*i)->getID();
