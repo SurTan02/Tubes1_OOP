@@ -171,7 +171,15 @@ void Container::display() {
             string out;
             string quant;
             quant = to_string(Content[i].qty);
-            out = Content[i].item->getName() + "[" + quant + "]";
+            if (Content[i].item->getType() == ItemType::Tool)
+            {
+                int dura = ((Tool*) Content[i].item)->getDurability();
+                out = Content[i].item->getName() + "[" + to_string(dura) + "]";
+            }
+            else
+            {
+                out = Content[i].item->getName() + "[" + quant + "]";
+            }        
             std::cout << out << std::setw(15);
         }
         else std::cout << "NULL[0]"  << std::setw(15);
