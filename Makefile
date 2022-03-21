@@ -1,7 +1,13 @@
 SRCS := awenmain.cpp $(filter-out src/test.cpp src/InventoryMain.cpp src/CraftingTableMain.cpp, $(wildcard src/*.cpp))
 
+ifeq ($(OS), Windows_NT)
+	EXECUTABLE=main.exe
+else
+	EXECUTABLE=main
+endif
+
 test:
-	g++ -std=c++17 -o main.exe $(SRCS)
+	g++ -std=c++17 -o $(EXECUTABLE) $(SRCS)
 
 # TC_FOLDER = tests
 # EXT_IN = in
