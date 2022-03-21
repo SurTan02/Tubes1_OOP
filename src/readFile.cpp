@@ -37,7 +37,7 @@ void readConfigItem(){
 
 void showAvailableItem(){
     for(auto i = listItem.begin(); i != listItem.end(); ++i){
-        cout<<(*i)->getID()<<" "<<(*i)->getName()<<" "<<(*i)->getTypeToString();
+        cout << (*i)->getID()<<" " << (*i)->getName() <<" " << (*i)->getTypeToString() << endl;
     }
 }
 

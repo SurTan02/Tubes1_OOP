@@ -42,8 +42,13 @@ int main() {
 			cout << "File successfully exported ❤️" << endl;
 			
 		} else if (command == "SHOW") {						// SHOW INVENTORY
+			cout << "---------------------------------------------------------------------------------------------------------------------------------------\n";
 			inv.display();
+			cout << "---------------------------------------------------------------------------------------------------------------------------------------\n";
+			cout << "\n";
+			cout << "---------------------------------------------\n";
 			craftingTable.display();
+			cout << "---------------------------------------------\n";
 		} else if (command == "CRAFT") {					// CRAFT ITEM
 
 			craftingTable.craft(inv);
@@ -70,26 +75,56 @@ int main() {
 		} else if (command == "MOVE") {
 			string slotSrc;
 			int slotQty;
-			string slotDest;
+			vector<string> slotDest;
 			// need to handle multiple destinations
-			cin >> slotSrc >> slotQty >> slotDest;
+			cin >> slotSrc >> slotQty;
+
+			string temp;
+			getline(cin, temp);
+			istringstream iss(temp);
+			//cout << "in\n";
+			while (iss >> temp)
+			{
+				slotDest.push_back(temp);
+			}
+			//cout << "out\n";
 
 			char slotSrcType;
-			char slotDestType;
+
+			/*
+			Untuk handle semisal tipenya berbeda => MOVE I1 5 I4 C5
+			(Biar universal aja jadi gak perlu buat pengecekan supaya tipenya harus sama pas input MOVE)
+			*/
+			vector<char> slotDestType;
+
 			int slotSrcIdx;
-			int slotDestIdx;
+			vector<int> slotDestIdx;
 
 			/**
 			 * getting the slots type
-			 */
-			slotSrcType = slotSrc[0];
-			slotDestType = slotDest[0];
+			*/
 
+			//cout << "numero uno\n";
+			slotSrcType = slotSrc[0];
+			for (int i=0; i<slotDest.size(); i++)
+			{
+				slotDestType.push_back(slotDest[i][0]);
+				//cout << i;
+			}
+			//cout << "\ndone\n";
+			
 			/**
 			 * getting the slots index
 			 */
 			slotSrcIdx = stoi(slotSrc.substr(1, slotSrc.size() - 1));
-			slotDestIdx = stoi(slotDest.substr(1, slotDest.size() - 1));
+
+			//cout << "numero duo\n";
+			for (int i=0; i<slotDest.size(); i++)
+			{
+				slotDestIdx.push_back(stoi(slotDest[i].substr(1, slotDest[i].size() - 1)));
+				//cout << i;
+			}
+			//cout << "\ndone\n";
 
 			/**
 			 * variable untuk asal container
@@ -107,20 +142,40 @@ int main() {
 				source = &craftingTable;
 			}
 
+			//cout << "numero trio\n";
+			for (int i=0; i<slotDest.size(); i++)
+			{
+				if(slotDestType[i] == 'I') {
+					destination = &inv;
+				} else {
+					destination = &craftingTable;
+				}
+
+				Container::move(*source, slotSrcIdx, *destination, slotDestIdx[i], slotQty);
+				//cout << i;
+			}
+			//cout << "\ndone\n";
+
+
 			/**
 			 * mengeset akhir container
 			 */
-			if(slotDestType == 'I') {
-				// semua
-				destination = &inv;
-				Container::move(*source, slotSrcIdx, *destination, slotDestIdx);
-			} else {
-				// hanya sesuai input
-				destination = &craftingTable;
-				Container::move(*source, slotSrcIdx, *destination, slotDestIdx, slotQty);
-			}
+			// if(slotDestType == 'I') {
+			// 	destination = &inv;
+			// } else {
+			// 	destination = &craftingTable;
+			// }
 
-			//Container::move(*source, slotSrcIdx, *destination, slotDestIdx, slotQty);
+			// Container::move(*source, slotSrcIdx, *destination, slotDestIdx, slotQty);
+
+			/* UPDATE MOVE
+			MOVE I1 5 I2
+			Move I1 to I2 sebanyak 5
+
+			MOVE I1 5 I2 I3
+			Move I1 to I2 sebanyak 5
+			Move I1 to I3 sebanyak 5
+			*/
 
 		} else if(command == "USE") {
 			string slot;
@@ -166,9 +221,8 @@ int main() {
 			} else {
 				craftingTable.discard(slotIdx, qty);
 			}
-		} else if(command == "AVAILABLE ITEM"){
+		} else if(command == "AVAILABLE"){
 			showAvailableItem();
-		}
 		} else {
 			// todo
 			cout << "Invalid command" << endl;
