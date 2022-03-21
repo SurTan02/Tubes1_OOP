@@ -41,7 +41,7 @@ void Container::insert(Item& itemX, int durability){
     int i = 0;
         while (i < size && !found) {
             if (Content[i].item == nullptr) {
-                Content[i].item = new Tool(itemX.getID(), itemX.getName(), 10);
+                Content[i].item = new Tool(itemX.getID(), itemX.getName(), durability);
                 Content[i].qty = 1;
                 found = true;
             }

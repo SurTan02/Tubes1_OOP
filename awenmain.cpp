@@ -71,7 +71,21 @@ int main() {
 				}
 			}
 
-			inv.insert(itemQty, *listItem[itemIndex]);
+			try{
+				if(listItem[itemIndex]->getType() == ItemType::Tool)
+				{
+					for (int i=0; i<itemQty; i++)
+					{
+						inv.insert(*listItem[itemIndex], ((Tool*) listItem[itemIndex])->getDurability());
+					}
+				}
+				else
+				{
+					inv.insert(itemQty, *listItem[itemIndex]);
+				}
+			}catch (Exception &e){
+				e.what();
+			}
 		} else if (command == "MOVE") {
 			string slotSrc;
 			int slotQty;

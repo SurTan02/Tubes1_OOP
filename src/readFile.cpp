@@ -24,7 +24,7 @@ void readConfigItem(){
 		words >> id >> name >> type >> typeTool;
         
 
-		if (typeTool == "Tool"){	//craft Tool
+		if (typeTool == "TOOL"){	//craft Tool
 			listItem.push_back(new Tool(stoi(id) , name , 10));
         
 		}else{		                //craft nontool
