@@ -18,6 +18,7 @@ class CraftingTable : public Container
     public:
         CraftingTable(); 
         string getName(int n);
+        string getType(int n);
         bool isEmpty();
         bool isTool();
         bool isNonTool();

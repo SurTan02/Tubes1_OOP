@@ -3,16 +3,24 @@
 /**
  * uncomment ini untuk mengoutput dari crafting table
  */
-#define DEBUG
+// #define DEBUG
 
 CraftingTable::CraftingTable() : Container(9) {}
 
 string CraftingTable::getName(int n) {
     if (this->Content[n].item != nullptr) {
-        if (this->getItem(n).item->getTypeToString() == "Plank") {
-            return this->getItem(n).item->getTypeToString();
-        } else {
+        return this->getItem(n).item->getName();
+    } else {
+        return NULL_ITEM;
+    }
+}
+
+string CraftingTable::getType(int n) {
+    if (this->Content[n].item != nullptr) {
+        if (this->getItem(n).item->getTypeToString() == "TOOL") {
             return this->getItem(n).item->getName();
+        } else {
+            return this->getItem(n).item->getTypeToString();
         }
     } else {
         return NULL_ITEM;
@@ -35,7 +43,7 @@ bool CraftingTable::isTool() {
     bool flag = true;
     
     for (int i = 0; i < this->getSize(); i++) {
-        if (this->Content[i].item != nullptr && this->getItem(i).item->getTypeToString() != "Tool") {
+        if (this->Content[i].item != nullptr && this->getItem(i).item->getTypeToString() != "TOOL") {
             flag = false;
         }
     }
@@ -46,7 +54,7 @@ bool CraftingTable::isNonTool() {
     bool flag = true;
 
     for (int i = 0; i < this->getSize(); i++) {
-        if (this->getItem(i).item->getTypeToString() == "Tool") {
+        if (this->getItem(i).item->getTypeToString() == "TOOL") {
             flag = false;
         }
     }
@@ -60,7 +68,7 @@ bool CraftingTable::check(string* recipe) {
         #ifdef DEBUG
         cout<< this->getName(i) <<" == "<< recipe[i]<<endl;
         #endif
-        if (this->getName(i) != recipe[i]) {
+        if (!(this->getName(i) == recipe[i] || this->getType(i) == recipe[i])) {
             flag = false;
         }
 
@@ -74,7 +82,7 @@ bool CraftingTable::checkMirror(string* recipe) {
     bool flag = true;
     int i = 2;
     for (int j = 0; j < 9; j++) {
-        if (this->getName(i) != recipe[j]) {
+        if (!(this->getName(i) == recipe[i] || this->getType(i) == recipe[i])) {
             flag = false;
         }
 
@@ -250,7 +258,7 @@ void CraftingTable::craft(Container& Inventory) {
                 cout<<"id "<<id;
                 cout<<typeTool<<endl;
                 #endif
-                if (typeTool == "Tool") {
+                if (typeTool == "TOOL") {
                     #ifdef DEBUG
                     cout<<"Hasil Tool\n";
                     #endif
