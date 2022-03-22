@@ -1,4 +1,4 @@
-SRCS := awenmain.cpp $(filter-out src/test.cpp src/InventoryMain.cpp src/CraftingTableMain.cpp, $(wildcard src/*.cpp))
+SRCS := main.cpp $(filter-out src/test.cpp src/InventoryMain.cpp src/CraftingTableMain.cpp, $(wildcard src/*.cpp))
 
 ifeq ($(OS), Windows_NT)
 	EXECUTABLE=main.exe

@@ -57,6 +57,7 @@ void Container::insert(Item& itemX, int durability){
 
 //Insert Item NonTool, Digunakan pada command give / craft 
 void Container::insert(int n, Item& itemX) {
+    if(n <= 0) { throw InvalidQuantityException();}
 
     bool flagNull = false;
     bool found = false;
@@ -136,16 +137,18 @@ void Container::discard(int index, int n) {
     if (Content[index].qty < n){
         throw NotEnoughItemException();
     }
+    if (n <= 0){
+        throw InvalidQuantityException();
+    }
     else if (Content[index].item == nullptr){
+        cout << "discard bruh\n";
         throw EmptySourceException();
     }
+
     //Cek apakah Item pada index merupakan tool, jika iya kosongkan slot
-    
     else if (Content[index].item->getType() == ItemType::Tool) {
-        /**
-         * codenya buat error karena kita delete instance di
-         * listItem juga jadi jangan di delete
-         */
+        // codenya buat error karena kita delete instance di listItem juga jadi jangan di delete
+
         // delete Content[index].item;
         Content[index].item = nullptr;
         Content[index].qty = 0;
@@ -229,6 +232,9 @@ void Container::move(Container& src, int srcIdx, Container& dst, int dstIdx, int
     if (n > srcSlot.qty) {
     
         throw NotEnoughItemException();
+    }
+    if (n <= 0){
+        throw InvalidQuantityException();
     }
     
     try { 

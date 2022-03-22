@@ -44,7 +44,7 @@ bool CraftingTable::isTool() {
 	bool flag = true;
 	
 	for (int i = 0; i < this->getSize(); i++) {
-		if (this->Content[i].item != nullptr && this->getItem(i).item->getTypeToString() != "TOOL") {
+		if (!(this->Content[i].item == nullptr || this->getItem(i).item->getTypeToString() == "TOOL")){
 			flag = false;
 		}
 	}
@@ -115,11 +115,6 @@ bool CraftingTable::checkSub(string* recipe, int row, int column) {
 	}
 }
 
-
-
-//Tambah parameter inventory
-//Jadi void
-// void CraftingTable::craft(std::vector<Recipe> recipes, Container Inventory) {
 void CraftingTable::craft(Container& Inventory) {
 	if (this->isEmpty()) {
 		throw FailedCraftException();
@@ -130,21 +125,20 @@ void CraftingTable::craft(Container& Inventory) {
 			int durability;
 			for (int i = 0; i < this->getSize(); i++) {
 				if (this->Content[i].item != nullptr) {
+					int itemDur = ((Tool*) this->getItem(i).item)->getDurability();
 					if (count == 0) {
 						item_name = this->getName(i);
-						durability = ((Tool*) this->getItem(i).item)->getDurability();
+						durability = itemDur;
 						count++;
 					} else if (count == 1) {
 						if (item_name == this->getName(i)) {
-							durability += ((Tool*) this->getItem(i).item)->getDurability();
+							durability += itemDur;
 							count++;
 						} else {
 							throw FailedCraftException();
-							return;
 						}
 					} else { 
 						throw FailedCraftException();
-						return;
 					}
 				}
 			}
@@ -152,19 +146,21 @@ void CraftingTable::craft(Container& Inventory) {
 			// string ids, type, typeTool;
 			int id = getIDfromName(item_name);
 			string typeTool = getTypefromName(item_name);
+			if (count == 2) {
+				try{
+					Inventory.insert(*listItem[id-1], std::min(durability, 10));
 
-			try{
-				Inventory.insert(*listItem[id-1], std::min(durability, 10));
-
-				for (int i = 0; i < this->getSize(); i++) {
-					if (this->Content[i].item != nullptr) {
-						this->discard(i, 1);
+					for (int i = 0; i < this->getSize(); i++) {
+						if (this->Content[i].item != nullptr) {
+							this->discard(i, 1);
+						}
 					}
+				} catch (Exception &e){
+					throw ;
 				}
-			} catch (Exception &e){
-				throw ;
+			} else {
+				throw FailedCraftException();
 			}
-			return;
 		} else {                        // if it's a NonTool
 			std::vector<Recipe*>::iterator ptr = recipes.begin();
 			bool flag = false;
@@ -182,11 +178,11 @@ void CraftingTable::craft(Container& Inventory) {
 				int qty = 65; /* karena qty max 64 */
 
 				for (int i = 0; i < 9; i++) {
-					if (this->getItem(i).qty < qty) {
+					if (this->Content[i].item != nullptr && this->getItem(i).qty < qty) {
 						qty = this->getItem(i).qty;
 					}
 				}
-				
+
 				/* TO DO: Check Tool atau NonTool */
 				int id = getIDfromName(item_name);
 				string typeTool = getTypefromName(item_name);
