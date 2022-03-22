@@ -1,0 +1,4 @@
+2 1
+FLINT
+STICK
+TORCH 1

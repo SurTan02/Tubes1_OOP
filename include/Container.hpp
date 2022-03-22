@@ -33,6 +33,7 @@ class Container {
         void display();
         static void move(Container& src, int srcIdx, Container& dst, int dstIdx);
         static void move(Container& src, int srcIdx, Container& dst, int dstIdx, int n);
+        static void swap(Container& src, int srcIdx, Container& dst, int dstIdx);
 };
 
 #endif

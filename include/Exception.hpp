@@ -23,6 +23,15 @@ class EmptySourceException : public Exception {
         ~EmptySourceException(){}
 };
 
+class OutOfRangeException : public Exception {
+    public:
+        OutOfRangeException() : Exception() {}
+        string what() {
+            return "Input index is not in range. Fail to perform operation.\n\n";
+        }
+        ~OutOfRangeException(){}
+};
+
 class FullInventoryException : public Exception {
     public:
         FullInventoryException() : Exception() {}

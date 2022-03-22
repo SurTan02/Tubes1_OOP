@@ -26,6 +26,6 @@ void Tool::use() {
     durability -= 1;
 }
 
-void Tool::output() {
-
+string Tool::output(int qty) {
+    return to_string(id) + string(":") + to_string(durability);
 }

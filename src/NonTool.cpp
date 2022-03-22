@@ -13,6 +13,6 @@ NonTool NonTool::operator=(const NonTool& other) {
     return n;
 }
 
-void NonTool::output() {
-    //TODO
+string NonTool::output(int qty) {
+    return to_string(id) + ":" + to_string(qty);
 }

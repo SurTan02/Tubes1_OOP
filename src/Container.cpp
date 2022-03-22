@@ -207,7 +207,7 @@ void Container::move(Container& src, int srcIdx, Container& dst, int dstIdx) {
 void Container::move(Container& src, int srcIdx, Container& dst, int dstIdx, int n) {
     Slot srcSlot = src.Content[srcIdx];
     Slot dstSlot = dst.Content[dstIdx];
-    Slot temp;
+   
     
     if (srcSlot.item == nullptr) {
         
@@ -218,16 +218,6 @@ void Container::move(Container& src, int srcIdx, Container& dst, int dstIdx, int
     if (srcSlot.item != dstSlot.item && dstSlot.item != nullptr) {
        
         throw DifferentItemTargetException();
-        // temp = dstSlot; 
-        // dstSlot = srcSlot; 
-        // srcSlot = temp; 
-
-        //Craft
-        // try
-        //Insert(Inventory,Hasil)           //Penuh
-        //Discard(CraftTable,Hasil)         //Item tab
-        // catch
-        // 
     }
     if (n > srcSlot.qty) {
     
@@ -249,6 +239,25 @@ void Container::move(Container& src, int srcIdx, Container& dst, int dstIdx, int
     } catch (Exception& e) {
         cout << e.what() << endl;
         
+    }
+    
+}
+
+void Container::swap(Container& src, int srcIdx, Container& dst, int dstIdx){
+    Slot& srcSlot = src.Content[srcIdx];
+    Slot& dstSlot = dst.Content[dstIdx];
+
+    if (dstIdx < 0 || dstIdx >= dst.getSize() || srcIdx < 0 || srcIdx >= src.getSize()){
+        throw OutOfRangeException();
+    }
+    else{
+        Slot temp;
+        temp.item = dstSlot.item;
+        temp.qty = dstSlot.qty;
+        dstSlot.item = srcSlot.item;
+        dstSlot.qty = srcSlot.qty; 
+        srcSlot.item = temp.item; 
+        srcSlot.qty= temp.qty; 
     }
     
 }

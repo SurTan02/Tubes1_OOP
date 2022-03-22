@@ -13,7 +13,7 @@ public:
     int getDurability();
     void repair(int n);
     void use();
-    void output() override;
+    string output(int qty) override;
 };
 
 #endif // TOOL_HPP

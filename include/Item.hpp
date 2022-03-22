@@ -22,7 +22,7 @@ class Item
         string getName();
         ItemType getType();
         string getTypeToString();
-        virtual void output() = 0;
+        virtual string output(int) = 0;
 };
 
 extern vector<Item*> listItem;
