@@ -178,6 +178,14 @@ void CraftingTable::craft(Container& Inventory) {
                 else ptr++;
             }
             if (flag) {
+                /* Hitung QTY */
+                int qty = 65; /* karena qty max 64 */
+
+                for (int i = 0; i < 9; i++) {
+                    if (this->getItem(i).qty < qty) {
+                        qty = this->getItem(i).qty;
+                    }
+                }
                 
                 /* TO DO: Check Tool atau NonTool */
                 int id = getIDfromName(item_name);
@@ -185,11 +193,12 @@ void CraftingTable::craft(Container& Inventory) {
 
                 if (typeTool == "TOOL") {
                     try{
-                        
-                        Inventory.insert(*listItem[id-1], 10);
-                        for (int i = 0; i < this->getSize(); i++) {
-                            if (this->Content[i].item != nullptr) {
-                                this->discard(i, 1);
+                        for (int i = 0; i < qty; i++) {
+                            Inventory.insert(*listItem[id-1], 10);
+                            for (int i = 0; i < this->getSize(); i++) {
+                                if (this->Content[i].item != nullptr) {
+                                    this->discard(i, 1);
+                                }
                             }
                         }
                     } catch (Exception &e){
@@ -198,10 +207,12 @@ void CraftingTable::craft(Container& Inventory) {
                     return;
                 } else {
                     try{
-                        Inventory.insert((*ptr)->getCreatedProduct(), *listItem[id-1]);
-                        for (int i = 0; i < this->getSize(); i++) {
-                            if (this->Content[i].item != nullptr) {
-                                this->discard(i, 1);
+                        for (int i = 0; i < qty; i++) {
+                            Inventory.insert((*ptr)->getCreatedProduct(), *listItem[id-1]);
+                            for (int i = 0; i < this->getSize(); i++) {
+                                if (this->Content[i].item != nullptr) {
+                                    this->discard(i, 1);
+                                }
                             }
                         }
                     } catch (Exception &e){
