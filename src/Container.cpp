@@ -142,7 +142,11 @@ void Container::discard(int index, int n) {
     //Cek apakah Item pada index merupakan tool, jika iya kosongkan slot
     
     else if (Content[index].item->getType() == ItemType::Tool) {
-        delete Content[index].item;
+        /**
+         * codenya buat error karena kita delete instance di
+         * listItem juga jadi jangan di delete
+         */
+        // delete Content[index].item;
         Content[index].item = nullptr;
         Content[index].qty = 0;
     }

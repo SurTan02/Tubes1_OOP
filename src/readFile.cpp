@@ -117,9 +117,14 @@ void readConfigRecipes(){
 
 // get ID and ItemType of an item
 int getIDfromName(string nama){
-    for(auto i = listItem.begin(); i != listItem.end(); ++i){
-        if((*i)->getName() == nama){
-            return (*i)->getID();
+    // for(auto i = listItem.begin(); i != listItem.end(); ++i){
+    //     if((*i)->getName() == nama){
+    //         return (*i)->getID();
+    //     }
+    // }
+    for(auto& i : listItem) {
+        if(i->getName() == nama) {
+            return i->getID();
         }
     }
     return 0; 
