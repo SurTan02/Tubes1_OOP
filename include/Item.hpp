@@ -2,7 +2,6 @@
 #define ITEM_HPP
 
 #include <string>
-#include <cstdint>
 #include <vector>
 using namespace std;
 

@@ -6,7 +6,6 @@
 #include "NonTool.hpp"
 #include "Exception.hpp"
 #include <iostream>
-#include <array>
 using namespace std;
 
 class Container {

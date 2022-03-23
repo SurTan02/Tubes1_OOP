@@ -1,10 +1,19 @@
-#include <iostream>
-#include "Reference.hpp"
+//Implementasi Class
+#include "include/Container.hpp"
+#include "include/CraftingTable.hpp"
+#include "include/Exception.hpp"
+#include "include/exportFile.hpp"
+#include "include/Item.hpp"
+#include "include/NonTool.hpp"
+#include "include/readFile.hpp"
+#include "include/Recipe.hpp"
+#include "include/Tool.hpp"
+using namespace std;
 
 void helpCommand(){
-	cout << "------------------------------------------------------------------------------------------------------------------------------------------------\n";
-	cout << "  COMMAND  ||        FORMAT\n";
-	cout << "------------------------------------------------------------------------------------------------------------------------------------------------\n";
+	cout << "-----------------------------------------------------------------------------------------------------------------------------\n";
+	cout << "  COMMAND       ||        FORMAT\n";
+	cout << "-----------------------------------------------------------------------------------------------------------------------------\n";
 	cout << "GIVE		|| GIVE [item name] [item quantity]" << endl;
 	cout << "SHOW		|| SHOW" << endl;
 	cout << "CRAFT		|| CRAFT" << endl;
@@ -17,12 +26,12 @@ void helpCommand(){
 	cout << "SWAP		|| SWAP [inventory's index (I0..I26)]       [inventory's index (I0..I26)]" << endl;
 	cout << "SWAP		|| SWAP [crafting table's index (C0..C8)]   [crafting table's index (C0..C8)]" << endl;
 	cout << "USE		|| USE [inventory's index (I0..I26)]" << endl;
-	cout << "DISCARD	|| DISCARD [inventory's index (I0..I26)]     [item quantity]" << endl;
-	cout << "DISCARD	|| DISCARD [crafting table's index (C0..C8)] [item quantity]" << endl;
+	cout << "DISCARD	        || DISCARD [inventory's index (I0..I26)]     [item quantity]" << endl;
+	cout << "DISCARD	        || DISCARD [crafting table's index (C0..C8)] [item quantity]" << endl;
 	cout << "AVAILABLE	|| AVAILABLE" << endl;
 	cout << "HELP		|| HELP" << endl;
 	cout << "QUIT		|| QUIT" << endl;
-	cout << "------------------------------------------------------------------------------------------------------------------------------------------------\n\n";
+	cout << "------------------------------------------------------------------------------------------------------------------------------\n\n";
 	return;
 }
 
@@ -272,10 +281,10 @@ int main() {
 			helpCommand();
 		} else if (command == "QUIT"){
 			string answer;
-			cout << "You sure you want to quit ? (Yes / No)\n";
+			cout << "You sure you want to quit ? (YES / NO)\n";
 			cin >> answer;
 			if(answer == "YES"){
-				cout << "JYAA, SAYONARA, KIMIIII" << endl;
+				cout << "ok. terserahhhh :3" << endl;
 				break;
 			}else{
 				cout << "fufufu, You better behave well, fufufu" << endl;
@@ -287,9 +296,3 @@ int main() {
 		cout << "Command : ";
 	}
 }
-
-// swap
-// help
-// multiple crafting (done)
-// item (another plank and log , torch) dan tool baru (hoe , shovel)
-// recipe : button , torch | stairs, door

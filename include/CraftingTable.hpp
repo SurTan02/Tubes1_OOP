@@ -1,10 +1,8 @@
 #ifndef CRAFTING_TABLE_HPP
 #define CRAFTING_TABLE_HPP
 
-#include <array>
 #include <vector>
 #include <iterator>
-#include <sstream>
 
 #include "Container.hpp"
 #include "Recipe.hpp"

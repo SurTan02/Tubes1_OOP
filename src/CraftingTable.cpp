@@ -167,7 +167,7 @@ void CraftingTable::craft(Container& Inventory) {
 			string item_name;
 
 			while (ptr < recipes.end() && !flag) {
-				if (this->check((*ptr)->getBlueprint()) || this->checkMirror((*ptr)->getBlueprint()) || (this->checkSub((*ptr)->getBlueprint(), (*ptr)->getRow(), (*ptr)->getColumn()))) {
+				if (this->check((*ptr)->getBlueprint()) || this->checkMirror((*ptr)->getBlueprint()) ||(this->checkSub((*ptr)->getBlueprint(), (*ptr)->getRow(), (*ptr)->getColumn()))) {
 					flag = true;
 					item_name = (*ptr)->getItemName();
 				}
@@ -218,7 +218,6 @@ void CraftingTable::craft(Container& Inventory) {
 				}
 			} else {
 				throw FailedCraftException();
-				return;
 			}
 			
 		}

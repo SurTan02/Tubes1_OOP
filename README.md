@@ -1,26 +1,64 @@
-# Minecraft-Template
+# TUGAS BESAR 1 IF2210 Pemrograman Berorientasi Objek
 
-Template repository for Tubes 1 IF2210 2021/2022. Feel free to replace this README with your own content.
+> The purpose of this project is to design a command line interface-based prototype of the crafting mechanism based on Minecraft using the C++ programming language. In designing the project, we were asked to use some of the object-oriented concepts that we have learned in class, namely:
+1. Inheritance and Polymorphism
+2. Exception and Exception Handling
+3. Function Overloading and Operator Overloading
+4. Abstract Class and Virtual Function
+5. Generic Functions and Generic Class
+6. STL (Standard Template Library)
+
 
 ## What's Inside
-This template consists of:
+This repository consists of:
 - config folder containing all the config files (items and recipes)
+- include folder containing header files that's needed on this project
+- src folder containing implementaion files of the header files from include folder
 - tests folder containing two sample test files (input and answer)
-- main.cpp containing the sample main code
+- main.cpp containing the main code
 - check.cpp containing the code for checking
 - makefile for compiling and testing
 
+
 ## Running the Makefile
-Make sure you are using Linux with C++17. WSL also works if you are using Windows.
+1. If you are using Linux, make sure you are using Linux with C++17. WSL also works if you are using Windows.
+compile : open terminal
 ```
 sudo apt-get install make g++
-make all
+make
 ```
-Using the sample main file, it should return that 1 out of 2 tests passed.
+run the code :
+```
+.\main
+```
 
-## Adding More Tests
-You can add more tests by adding more files to the tests folder. Tests consists of two files, input with "in" extension and answer with "ans" extension. Each test should have exactly one EXPORT command which exports the current inventory into an "out" file in the tests folder. Please refer to the sample tests. Checking will be done by comparing the answer file and the output file.
 
-As the test is done by comparing the output files, you can freely use standard output in your program.
+2. If you are using Windows, make sure you have installed minGW.
+compile : open terminal / cmd
+```
+make
+```
+run the code :
+```
+.\main
+```
 
-Automated testing will not work if you are using GUI (obviously).
+
+# Advisory Assistant
+
+> Gregorius Jovan Kresnadi - 13518135
+
+
+## Contributors
+<table>
+
+<tr><td colspan = 3 align = "center">GROUP 07 BRISUPREMACY</td></tr>
+<tr><td>No.</td><td>Name</td><td>Student ID</td></tr>
+<tr><td>1.</td><td>Suryanto</td><td>13520059</td></tr>
+<tr><td>2.</td><td>Wesly Giovano</td><td>13520071</td></tr>
+<tr><td>3.</td><td>Vieri Mansyl</td><td>13520092</td></tr>
+<tr><td>4.</td><td>Brianaldo Phandiarta</td><td>13520113</td></tr>
+<tr><td>5.</td><td>Steven</td><td>13520131</td></tr>
+<tr><td>6.</td><td>Aldwin Hardi Swastia</td><td>13520167</td></tr>
+
+</table>
