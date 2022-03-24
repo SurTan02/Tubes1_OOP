@@ -141,7 +141,6 @@ void Container::discard(int index, int n) {
         throw InvalidQuantityException();
     }
     else if (Content[index].item == nullptr){
-        cout << "discard bruh\n";
         throw EmptySourceException();
     }
 
