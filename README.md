@@ -54,11 +54,11 @@ run the code :
 
 <tr><td colspan = 3 align = "center">GROUP 07 BRISUPREMACY</td></tr>
 <tr><td>No.</td><td>Name</td><td>Student ID</td></tr>
-<tr><td>1.</td><td>Suryanto</td><td>13520059</td></tr>
-<tr><td>2.</td><td>Wesly Giovano</td><td>13520071</td></tr>
-<tr><td>3.</td><td>Vieri Mansyl</td><td>13520092</td></tr>
-<tr><td>4.</td><td>Brianaldo Phandiarta</td><td>13520113</td></tr>
-<tr><td>5.</td><td>Steven</td><td>13520131</td></tr>
-<tr><td>6.</td><td>Aldwin Hardi Swastia</td><td>13520167</td></tr>
+<tr><td>1.</td><td><a href="https://github.com/SurTan02"><b>Suryanto</b></a></td><td>13520059</td></tr>
+<tr><td>2.</td><td><a href="https://github.com/weslygio"><b>Wesly Giovano</b></a></td><td>13520071</td></tr>
+<tr><td>3.</td><td><a href="https://github.com/VieriMansyl"><b>Vieri Mansyl</b></a></td><td>13520092</td></tr>
+<tr><td>4.</td><td><a href="https://github.com/Brianaldo"><b>Brianaldo Phandiarta</b></a></td><td>13520113</td></tr>
+<tr><td>5.</td><td><a href="https://github.com/loopfree"><b>Steven</b></a></td><td>13520131</td></tr>
+<tr><td>6.</td><td><a href="https://github.com/aldwinhs"><b>Aldwin Hardi Swastia</b></a></td><td>13520167</td></tr>
 
 </table>
