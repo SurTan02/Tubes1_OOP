@@ -13,10 +13,10 @@
 This repository consists of:
 - config folder containing all the config files (items and recipes)
 - include folder containing header files that's needed on this project
+- doc folder containing this project's report
 - src folder containing implementaion files of the header files from include folder
-- tests folder containing two sample test files (input and answer)
 - main.cpp containing the main code
-- check.cpp containing the code for checking
+- main.exe as executable code
 - makefile for compiling and testing
 
 
