@@ -158,31 +158,23 @@ void Container::display() {
         std::cout << std::setw(15);
         if (Content[i].item != nullptr)
         {
-            std::cout << "ada item\n";
             string out;
             string quant;
             quant = to_string(Content[i].qty);
-            std::cout << "(masih) ada item\n";
             if (Content[i].item->getType() == ItemType::Tool)
             {
-                std::cout << "ada Tool\n";
                 int dura = ((Tool*) Content[i].item)->getDurability();
                 out = Content[i].item->getName() + "[" + to_string(dura) + "]";
-                std::cout << "Keluar Tool\n";
             }
             else
             {
-                std::cout << "ada NonTool\n";
                 out = Content[i].item->getName() + "[" + quant + "]";
-                std::cout << "Keluar NonTool\n";
             }        
-            std::cout << "INI sebelum OUT\n";
             std::cout << out << std::setw(15);
-            std::cout << "INI sesudah OUT\n";
+
         }
         else std::cout << "NULL[0]"  << std::setw(15);
 
-        cout << "TRANSITION\n";
         if ((i+1)%(size/3)==0) {
             std::cout<<std::endl;
         }        

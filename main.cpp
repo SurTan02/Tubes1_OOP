@@ -213,7 +213,7 @@ int main() {
 			}catch(Exception &e){
 				cout<<e.what();
 			}
-		} else if (command =="SWAP"){
+		} else if (command == "SWAP"){
 			
 			string Src, Dst;
 			cin >> Src >> Dst;
@@ -236,13 +236,13 @@ int main() {
 			helpCommand();
 		} else if (command == "QUIT"){
 			string answer;
-			cout << "You sure you want to quit ? (YES / NO)\n";
+			cout << "You sure you want to quit ? (YES / NO)\nCommand : ";
 			cin >> answer;
 			if(answer == "YES"){
-				cout << "ok. terserahhhh :3" << endl;
+				cout << "ok. terserahhhh :3" << endl << endl;
 				break;
 			}else{
-				cout << "fufufu, You better behave well, fufufu" << endl;
+				cout << "fufufu, You better behave well, fufufu" << endl << endl;
 			}
 		} else {
 			cout << "INVALID COMMAND. PLEASE TRY AGAIN !!!" << endl << endl;
