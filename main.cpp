@@ -8,6 +8,7 @@
 #include "include/readFile.hpp"
 #include "include/Recipe.hpp"
 #include "include/Tool.hpp"
+
 using namespace std;
 
 void helpCommand(){
@@ -31,6 +32,7 @@ void helpCommand(){
 	cout << "AVAILABLE	|| AVAILABLE" << endl;
 	cout << "HELP		|| HELP" << endl;
 	cout << "QUIT		|| QUIT" << endl;
+	cout << "EXPORT		|| EXPORT [file name]" << endl;
 	cout << "------------------------------------------------------------------------------------------------------------------------------\n\n";
 	return;
 }
@@ -54,28 +56,28 @@ int main() {
 	string command;
 	cout << "Command : ";
 	while (cin >> command) {
-		if (command == "EXPORT") {							// EXPORT FILE
+		if (command == "EXPORT") {
 			string outputPath;
     		cin >> outputPath;		// nama file
 			exportFile(inv , outputPath);
 			cout << "File successfully exported !!" << endl<< endl;
 			
-		} else if (command == "SHOW") {						// SHOW INVENTORY
-			cout << "------------------------------------------------------------------------------------------------------------------------------------------------\n";
+		} else if (command == "SHOW") {
+			cout << "-------------------------------------------------------------------INVENTORY-------------------------------------------------------------------\n";
 			inv.display();
-			cout << "------------------------------------------------------------------------------------------------------------------------------------------------\n";
+			cout << "-----------------------------------------------------------------------------------------------------------------------------------------------\n";
 			cout << "\n";
-			cout << "------------------------------------------------\n";
+			cout << "-----------------CRAFTING TABLE-----------------\n";
 			craftingTable.display();
 			cout << "------------------------------------------------\n";
-		} else if (command == "CRAFT") {					// CRAFT ITEM
+		} else if (command == "CRAFT") {
 			try{
 				craftingTable.craft(inv);
 				cout << "Item successfully crafted !!" << endl << endl;
 			}catch(Exception &e){
 				cout<<e.what();
 			}
-		} else if (command == "GIVE") {						// GIVE ITEM
+		} else if (command == "GIVE") {
 			char itemName[100];
 			char dummy[100];
 			char Qty[100];
@@ -112,19 +114,14 @@ int main() {
 			string slotSrc;
 			int slotQty;
 			vector<string> slotDest;
-			// need to handle multiple destinations
 			cin >> slotSrc >> slotQty;
 
 			string temp;
 			getline(cin, temp);
 			istringstream iss(temp);
-			//cout << "in\n";
-			while (iss >> temp)
-			{
+			while (iss >> temp){
 				slotDest.push_back(temp);
 			}
-			//cout << "out\n";
-
 			char slotSrcType;
 
 			/*
@@ -136,49 +133,31 @@ int main() {
 			int slotSrcIdx;
 			vector<int> slotDestIdx;
 
-			/**
-			 * getting the slots type
-			*/
-
-			//cout << "numero uno\n";
 			slotSrcType = slotSrc[0];
 			for (int i=0; i<slotDest.size(); i++)
 			{
 				slotDestType.push_back(slotDest[i][0]);
-				//cout << i;
 			}
 			
-			
-			/**
-			 * getting the slots index
-			 */
+			// getting the slots index
 			slotSrcIdx = stoi(slotSrc.substr(1, slotSrc.size() - 1));
 
-			//cout << "numero duo\n";
-			for (int i=0; i<slotDest.size(); i++)
-			{
+			for (int i=0; i<slotDest.size(); i++){
 				slotDestIdx.push_back(stoi(slotDest[i].substr(1, slotDest[i].size() - 1)));
-				//cout << i;
 			}
-			//cout << "\ndone\n";
 
-			/**
-			 * variable untuk asal container
-			 * dan akhir container
-			 */
+			// variable untuk asal container dan akhir container
 			Container* source;
 			Container* destination;
 
-			/**
-			 * mengeset asal container
-			 */
+			// mengeset asal container
 			if(slotSrcType == 'I') {
 				source = &inv;
 			} else {
 				source = &craftingTable;
 			}
+
 			try{
-				//cout << "numero trio\n";
 				for (int i=0; i<slotDest.size(); i++)
 				{
 					if(slotDestType[i] == 'I') {
@@ -196,17 +175,9 @@ int main() {
 			string slot;
 			cin >> slot;
 
-			/**
-			 * membuat variable untuk mendapatkan
-			 * tipe dari slot
-			 * dan index dari slot
-			 */
 			char slotType = slot[0];
 			int slotIdx = stoi(slot.substr(1, slot.size() - 1));
 
-			/**
-			 * mengecek tipe dari slot
-			 */
 			try{
 				if(slotType == 'I') {		// USE IN INVENTORY
 					Tool* temp = (Tool*) inv.getItem(slotIdx).item;
@@ -219,13 +190,6 @@ int main() {
 					}
 				} else {					// USE IN CRAFTING TABLE
 					cout << "Invalid position to use item\n\n";
-					// if (temp->getType() != ItemType::Tool){
-					// 	cout<<"in\n";
-					// }else{
-					// 	Tool* temp = (Tool*) craftingTable.getItem(slotIdx).item;
-					// 	temp->use();
-					// 	if (temp->getDurability() == 0) craftingTable.discard(slotIdx,1);
-					// }
 				}
 			}catch(Exception &e){
 				cout<<e.what();
@@ -236,17 +200,9 @@ int main() {
 			int qty;
 			cin >> slot >> qty;
 
-			/**
-			 * membuat variable untuk mendapatkan
-			 * tipe dari slot
-			 * dan index dari slot
-			 */
 			char slotType = slot[0];
 			int slotIdx = stoi(slot.substr(1, slot.size() - 1));
 
-			/**
-			 * mengecek tipe dari slot
-			 */
 			try{
 				if(slotType == 'I') {
 					inv.discard(slotIdx, qty);
@@ -260,7 +216,6 @@ int main() {
 		} else if (command =="SWAP"){
 			
 			string Src, Dst;
-			// need to handle multiple destinations
 			cin >> Src >> Dst;
 			int srcIdx = stoi(Src.substr(1, Src.size() - 1));
 			int dstIdx = stoi(Dst.substr(1, Dst.size() - 1));
@@ -290,7 +245,6 @@ int main() {
 				cout << "fufufu, You better behave well, fufufu" << endl;
 			}
 		} else {
-			// todo
 			cout << "INVALID COMMAND. PLEASE TRY AGAIN !!!" << endl << endl;
 		}
 		cout << "Command : ";

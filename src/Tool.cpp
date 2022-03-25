@@ -9,8 +9,7 @@ Tool::Tool(int id, std::string name, int durability) :
 Tool& Tool::operator=(const Tool& other) {
     this->id = other.id;  
     this->name = other.name;  
-    this->durability = other.durability;  
-    // Tool t(other.id, other.name, other.durability);
+    this->durability = other.durability;
     return *this;
 }
 

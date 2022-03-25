@@ -1,8 +1,3 @@
-// NOTE
-// ------------------------------------------------
-// Perlu handle kasus di mana give bernilai negatif
-// ------------------------------------------------
-
 #include "../include/Container.hpp"
 #include <iomanip>
 //Constructor
@@ -11,10 +6,7 @@ Container::Container(int size) {
     this->size = size;
     this->Content = new Slot[size];
     for (int i = 0; i < this->size; i++) {
-        // Content[i].item = null
         Content[i].item = nullptr;
-        //Content[i].item = new Tool(0, NULL_ITEM, 0);
-
         Content[i].qty = 0;
     }
 }
@@ -35,7 +27,6 @@ int Container::getSize() {
     return this->size;
 }
 
-//BIKIN INSERT KHUSUS ITEM
 void Container::insert(Item& itemX, int durability){
     bool found = false;
     int i = 0;
@@ -55,7 +46,7 @@ void Container::insert(Item& itemX, int durability){
 }
 
 
-//Insert Item NonTool, Digunakan pada command give / craft 
+//Insert Item NonTool, Digunakan pada command give / craft
 void Container::insert(int n, Item& itemX) {
     if(n <= 0) { throw InvalidQuantityException();}
 
@@ -146,9 +137,6 @@ void Container::discard(int index, int n) {
 
     //Cek apakah Item pada index merupakan tool, jika iya kosongkan slot
     else if (Content[index].item->getType() == ItemType::Tool) {
-        // codenya buat error karena kita delete instance di listItem juga jadi jangan di delete
-
-        // delete Content[index].item;
         Content[index].item = nullptr;
         Content[index].qty = 0;
     }
@@ -157,47 +145,50 @@ void Container::discard(int index, int n) {
         //Kasus sama apabila jumlah n > qty item
         if (Content[index].qty == n){
             Content[index].item = nullptr;
-        Content[index].qty = 0;
-
+            Content[index].qty = 0;
         } else{
             Content[index].qty -= n;
-        }
-        
-        
+        } 
     }
 }
 
-
 void Container::display() {
     int i;
-    for (i= 0 ; i < size ; i++){
+    for (i = 0 ; i < size ; i++){
         std::cout << std::setw(15);
         if (Content[i].item != nullptr)
         {
+            std::cout << "ada item\n";
             string out;
             string quant;
             quant = to_string(Content[i].qty);
+            std::cout << "(masih) ada item\n";
             if (Content[i].item->getType() == ItemType::Tool)
             {
+                std::cout << "ada Tool\n";
                 int dura = ((Tool*) Content[i].item)->getDurability();
                 out = Content[i].item->getName() + "[" + to_string(dura) + "]";
+                std::cout << "Keluar Tool\n";
             }
             else
             {
+                std::cout << "ada NonTool\n";
                 out = Content[i].item->getName() + "[" + quant + "]";
+                std::cout << "Keluar NonTool\n";
             }        
+            std::cout << "INI sebelum OUT\n";
             std::cout << out << std::setw(15);
+            std::cout << "INI sesudah OUT\n";
         }
         else std::cout << "NULL[0]"  << std::setw(15);
-        
 
+        cout << "TRANSITION\n";
         if ((i+1)%(size/3)==0) {
-            std::cout<<std::endl;// << std::setw(-25);
+            std::cout<<std::endl;
         }        
     }
     std::cout << std::setw(0);
 }
-
 
 void Container::move(Container& src, int srcIdx, Container& dst, int dstIdx) {
     move(src, srcIdx, dst, dstIdx, src.Content[srcIdx].qty);
@@ -207,19 +198,19 @@ void Container::move(Container& src, int srcIdx, Container& dst, int dstIdx, int
     Slot srcSlot = src.Content[srcIdx];
     Slot dstSlot = dst.Content[dstIdx];
    
+
+    if (dstIdx < 0 || dstIdx >= dst.getSize() || srcIdx < 0 || srcIdx >= src.getSize()){
+        throw OutOfRangeException();
+    }
     
     if (srcSlot.item == nullptr) {
-        
         throw EmptySourceException();
     }
     
-    // Throw exception or swap?? Specification unclear
     if (srcSlot.item != dstSlot.item && dstSlot.item != nullptr) {
-       
         throw DifferentItemTargetException();
     }
     if (n > srcSlot.qty) {
-    
         throw NotEnoughItemException();
     }
     if (n <= 0){
@@ -237,9 +228,7 @@ void Container::move(Container& src, int srcIdx, Container& dst, int dstIdx, int
         }
     } catch (Exception& e) {
         cout << e.what() << endl;
-        
     }
-    
 }
 
 void Container::swap(Container& src, int srcIdx, Container& dst, int dstIdx){

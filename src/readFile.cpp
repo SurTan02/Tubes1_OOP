@@ -13,7 +13,6 @@ ItemType getItemType(string type){
 
 // Read All Config
 void readConfigItem(){
-
     string configPath = "config/item.txt";
 	string id , name, type , typeTool;
   	ifstream itemConfigFile(configPath);
@@ -23,16 +22,12 @@ void readConfigItem(){
 		stringstream words(line);
 		words >> id >> name >> type >> typeTool;
         
-
 		if (typeTool == "TOOL"){	//craft Tool
 			listItem.push_back(new Tool(stoi(id) , name , 10));
-        
 		}else{		                //craft nontool
 			listItem.push_back(new NonTool(stoi(id) , name , getItemType(type)));
-
 		}
   	}
-
 }
 
 void showAvailableItem(){
@@ -41,27 +36,20 @@ void showAvailableItem(){
     }
 }
 
-// Read All Recipee
+// Read All Recipe
 void readConfigRecipes(){
     string configPath = "config/recipe/";
     
     DIR *dir;
     struct dirent *ent;
 
-    //vector <Recipe> recipes;
     int lineRead = 0;
     string row , col , itemName , quantity;
     string material1 , material2 , material3;
     int idx_bp = 0;
 
-    /**
-     * .c_str digunakan
-     * untuk mendapatkan
-     * const char* dari
-     * sebuah class
-     * std::string
-     */
-    if ((dir = opendir(configPath.c_str())) != NULL) {		/* print all the files and directories within directory */
+    /* print all the files and directories within directory */
+    if ((dir = opendir(configPath.c_str())) != NULL) {
         int n = 2;
         int idx = 0;
          
@@ -87,16 +75,16 @@ void readConfigRecipes(){
                     lineRead++;
                     
                     if(lineRead == 1){
-                        
                         words >> row >> col;
                         tempRecipe->setRow(stoi(row));
                         tempRecipe->setColumn(stoi(col));
                         lineRead += 3 - stoi(row);          //adjust total line of recipe.txt
+
                     }else if (lineRead == 5){               // last line on recipe.txt
-                        
                         words >> itemName >> quantity;
                         tempRecipe->setItemName(itemName);
                         tempRecipe->setCreatedProduct(stoi (quantity));
+
                     }else{
                         if(tempRecipe->getColumn() == 1)       {words >> material1;}
                         else if (tempRecipe->getColumn() == 2) {words >> material1 >> material2;}
@@ -105,23 +93,17 @@ void readConfigRecipes(){
                         tempRecipe->setBlueprint(idx_bp+1 , material2);
                         tempRecipe->setBlueprint(idx_bp+2 , material3);
                         idx_bp += 3;
-                    }  
-                }     
+                    }
+                }
                 recipes.push_back(tempRecipe);    
             }
         }
         closedir (dir);
     } else {perror ("");}	/* could not open directory */
-
 }
 
 // get ID and ItemType of an item
 int getIDfromName(string nama){
-    // for(auto i = listItem.begin(); i != listItem.end(); ++i){
-    //     if((*i)->getName() == nama){
-    //         return (*i)->getID();
-    //     }
-    // }
     for(auto& i : listItem) {
         if(i->getName() == nama) {
             return i->getID();

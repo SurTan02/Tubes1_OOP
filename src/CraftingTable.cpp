@@ -1,11 +1,5 @@
 #include "../include/CraftingTable.hpp"
 
-/**
- * uncomment ini untuk mengoutput dari crafting table
- */
-// #define DEBUG
-// #define DEBUG_MIRROR
-
 CraftingTable::CraftingTable() : Container(9) {}
 
 string CraftingTable::getName(int n) {
@@ -27,7 +21,6 @@ string CraftingTable::getType(int n) {
 		return NULL_ITEM;
 	}
 }
-
 
 bool CraftingTable::isEmpty() {
 	bool flag = true;
@@ -64,28 +57,27 @@ bool CraftingTable::isNonTool() {
 
 bool CraftingTable::check(string* recipe) {
 	bool flag = true;
+
 	for (int i = 0; i < 9; i++) {
 		if (!(this->getName(i) == recipe[i] || this->getType(i) == recipe[i])) {
 			flag = false;
 		}
 	}
-
 	return flag;
 }
-
 
 bool CraftingTable::checkMirror(string* recipe) {
 	bool flag = true;
 	int i = 2;
 	for (int j = 0; j < 9; j++) {
-		if (!(this->getName(j) == recipe[i] || this->getType(j) == recipe[i])) {    // jika ada yang tidak sama dengan mirror recipe
+		// jika ada yang tidak sama dengan mirror recipe
+		if (!(this->getName(j) == recipe[i] || this->getType(j) == recipe[i])) {
 			flag = false;
 		}
 
 		if (i % 3 == 0) {i += 5;}
 		else            {i--;}
 	}
-
 	return flag;
 }
 
@@ -109,10 +101,8 @@ bool CraftingTable::checkSub(string* recipe, int row, int column) {
 			temp[0] = NULL_ITEM;
 		}
 		delete[] temp;
-		return false;
-	} else {
-		return false;
 	}
+	return false;
 }
 
 void CraftingTable::craft(Container& Inventory) {
@@ -143,7 +133,6 @@ void CraftingTable::craft(Container& Inventory) {
 				}
 			}
 
-			// string ids, type, typeTool;
 			int id = getIDfromName(item_name);
 			string typeTool = getTypefromName(item_name);
 			if (count == 2) {
@@ -183,7 +172,7 @@ void CraftingTable::craft(Container& Inventory) {
 					}
 				}
 
-				/* TO DO: Check Tool atau NonTool */
+				/*Check Tool atau NonTool */
 				int id = getIDfromName(item_name);
 				string typeTool = getTypefromName(item_name);
 
@@ -219,7 +208,6 @@ void CraftingTable::craft(Container& Inventory) {
 			} else {
 				throw FailedCraftException();
 			}
-			
 		}
 	}
 }
